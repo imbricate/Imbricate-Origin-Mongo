@@ -26,7 +26,6 @@
     "url": "https://github.com/Imbricate/Imbricate-Origin-Mongo/issues"
   },
   "homepage": "https://imbricate.io",
-  "dependencies": {},
   "peerDependencies": {
     "@imbricate/core": "*"
   },
