@@ -4,4 +4,4 @@
  * @description Index
  */
 
-export * from "./origin";
+export * from "./origin/origin";

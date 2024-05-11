@@ -1,15 +1,20 @@
 /**
  * @author WMXPY
- * @namespace Mongo
+ * @namespace Origin
  * @description Origin
  */
 
 import { IImbricateBinaryStorage, IImbricateFunctionManager, IImbricateOrigin, IImbricateOriginCollection, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNoteImplemented, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateSearchScriptConfig, SandboxExecuteConfig, createAllAllowImbricateOriginCapability } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
+import { connectDatabase } from "../database/connect";
 
 export class MongoImbricateOrigin implements IImbricateOrigin {
 
-    public static create(): MongoImbricateOrigin {
+    public static async create(
+        database: string,
+    ): Promise<MongoImbricateOrigin> {
+
+        await connectDatabase(database);
 
         return new MongoImbricateOrigin();
     }
