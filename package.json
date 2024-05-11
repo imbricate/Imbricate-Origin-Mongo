@@ -18,7 +18,9 @@
     "url": "git+https://github.com/Imbricate/Imbricate-Origin-Mongo.git"
   },
   "keywords": [
-    "API"
+    "imbricate",
+    "note",
+    "Mongodb"
   ],
   "author": "WMXPY",
   "license": "MIT",

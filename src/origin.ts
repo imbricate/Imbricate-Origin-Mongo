@@ -4,79 +4,206 @@
  * @description Origin
  */
 
-import { IImbricateOrigin, IImbricateOriginCollection, ImbricateOriginMetadata, ImbricateScriptMetadata, SandboxExecuteConfig } from "@imbricate/core";
+import { IImbricateBinaryStorage, IImbricateFunctionManager, IImbricateOrigin, IImbricateOriginCollection, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNoteImplemented, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateSearchScriptConfig, SandboxExecuteConfig, createAllAllowImbricateOriginCapability } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
 
 export class MongoImbricateOrigin implements IImbricateOrigin {
 
+    public static create(): MongoImbricateOrigin {
+
+        return new MongoImbricateOrigin();
+    }
+
+    public readonly originType: string = "Mongo";
+    public readonly capabilities: ImbricateOriginCapability =
+        createAllAllowImbricateOriginCapability();
+
     public readonly metadata: ImbricateOriginMetadata = {
-        type: "mongo",
+        digestAlgorithm: IMBRICATE_DIGEST_ALGORITHM.SHA1,
     };
     public readonly payloads: Record<string, any> = {};
 
-    public async createCollection(): Promise<void> {
+    private constructor() {
+
+    }
+
+    public get uniqueIdentifier(): string {
+        return "Mongo";
+    }
+
+    public getFunctionManger(): IImbricateFunctionManager {
 
         throw new Error("Method not implemented.");
+    }
+    public getBinaryStorage(): IImbricateBinaryStorage {
+
+        throw new Error("Method not implemented.");
+    }
+
+    public async createCollection(): Promise<void> {
+
+        throw ImbricateNoteImplemented.create(
+            "createCollection",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.CREATE_COLLECTION,
+        );
     }
 
     public async hasCollection(_collectionName: string): Promise<boolean> {
-        throw new Error("Method not implemented.");
+
+        throw ImbricateNoteImplemented.create(
+            "hasCollection",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_COLLECTION,
+        );
     }
 
-    public async getCollection(_collectionName: string): Promise<IImbricateOriginCollection | null> {
+    public async getCollection(
+        _collectionUniqueIdentifier: string,
+    ): Promise<IImbricateOriginCollection | null> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "getCollection",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_COLLECTION,
+        );
+    }
+
+    public async findCollection(
+        _collectionName: string,
+    ): Promise<IImbricateOriginCollection | null> {
+
+        throw ImbricateNoteImplemented.create(
+            "findCollection",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_COLLECTION,
+        );
+    }
+
+    public async renameCollection(
+        _collectionUniqueIdentifier: string,
+        _newCollectionName: string,
+    ): Promise<void> {
+
+        throw ImbricateNoteImplemented.create(
+            "renameCollection",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.RENAME_COLLECTION,
+        );
     }
 
     public async listCollections(): Promise<IImbricateOriginCollection[]> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "listCollections",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.LIST_COLLECTIONS,
+        );
     }
 
-    public async removeCollection(): Promise<void> {
+    public async deleteCollection(): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "removeCollection",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.DELETE_COLLECTION,
+        );
     }
 
     public async createScript(
         _scriptName: string,
         _description?: string,
-    ): Promise<ImbricateScriptMetadata> {
+    ): Promise<IImbricateScript> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "createScript",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.CREATE_SCRIPT,
+        );
     }
 
     public async hasScript(
         _scriptName: string,
     ): Promise<boolean> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "hasScript",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
+        );
     }
 
     public async getScript(
         _scriptName: string,
-    ): Promise<string | null> {
+    ): Promise<IImbricateScript | null> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "getScript",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
+        );
     }
 
     public async openScript(
         _scriptIdentifier: string,
     ): Promise<string> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "openScript",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
+        );
+    }
+
+    public async putScript(
+        _scriptMetadata: ImbricateScriptMetadata,
+        _script: string,
+    ): Promise<IImbricateScript> {
+
+        throw ImbricateNoteImplemented.create(
+            "putScript",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.PUT_SCRIPT,
+        );
+    }
+
+    public async renameScript(
+        _identifier: string,
+        _newScriptName: string,
+    ): Promise<void> {
+
+        throw ImbricateNoteImplemented.create(
+            "renameScript",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.RENAME_SCRIPT,
+        );
     }
 
     public async listScripts(): Promise<ImbricateScriptMetadata[]> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "listScripts",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.LIST_SCRIPTS,
+        );
     }
 
-    public async removeScript(
+    public async deleteScript(
         _scriptName: string,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "removeScript",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.DELETE_SCRIPT,
+        );
+    }
+
+    public async searchScripts(
+        _keyword: string,
+        _config: ImbricateSearchScriptConfig,
+    ): Promise<ImbricateScriptSearchResult[]> {
+
+        throw ImbricateNoteImplemented.create(
+            "searchScripts",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
+        );
+    }
+
+    public async queryScripts(
+        _query: ImbricateScriptQuery,
+        _config: ImbricateScriptQueryConfig,
+    ): Promise<IImbricateScript[]> {
+
+        throw ImbricateNoteImplemented.create(
+            "queryScripts",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
+        );
     }
 
     public async executeScript(
@@ -84,6 +211,9 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _config: SandboxExecuteConfig,
     ): Promise<MarkedResult | null> {
 
-        throw new Error("Method not implemented.");
+        throw ImbricateNoteImplemented.create(
+            "executeScript",
+            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
+        );
     }
 }
