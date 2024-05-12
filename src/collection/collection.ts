@@ -6,6 +6,7 @@
 
 import { IImbricateOriginCollection, IImbricatePage, ImbricateCollectionCapability, ImbricatePageMetadata, ImbricatePageQuery, ImbricatePageQueryConfig, ImbricatePageSearchResult, ImbricatePageSnapshot, ImbricateSearchPageConfig, createAllAllowImbricateCollectionCapability } from "@imbricate/core";
 import { ICollectionModel } from "../database/collection/model";
+import { mongoCreatePage } from "./create-page";
 
 export class MongoImbricateCollection implements IImbricateOriginCollection {
 
@@ -33,16 +34,21 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         return this._collection.description;
     }
 
-    public createPage(
-        _directories: string[],
-        _title: string,
-        _initialContent: string,
+    public async createPage(
+        directories: string[],
+        title: string,
+        initialContent: string,
     ): Promise<IImbricatePage> {
 
-        throw new Error("Method not implemented.");
+        return await mongoCreatePage(
+            directories,
+            title,
+            initialContent,
+            this._collection.description,
+        );
     }
 
-    public putPage(
+    public async putPage(
         _pageMetadata: ImbricatePageMetadata,
         _content: string,
     ): Promise<IImbricatePage> {
@@ -50,7 +56,7 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    public retitlePage(
+    public async retitlePage(
         _identifier: string,
         _newTitle: string,
     ): Promise<void> {
@@ -58,14 +64,14 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    public deletePage(
+    public async deletePage(
         _identifier: string,
     ): Promise<void> {
 
         throw new Error("Method not implemented.");
     }
 
-    public hasPage(
+    public async hasPage(
         _directories: string[],
         _title: string,
     ): Promise<boolean> {
@@ -73,14 +79,14 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    public getPage(
+    public async getPage(
         _identifier: string,
     ): Promise<IImbricatePage | null> {
 
         throw new Error("Method not implemented.");
     }
 
-    public listPages(
+    public async listPages(
         _directories: string[],
         _recursive: boolean,
     ): Promise<ImbricatePageSnapshot[]> {
@@ -88,14 +94,14 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    public listDirectories(
+    public async listDirectories(
         _directories: string[],
     ): Promise<string[]> {
 
         throw new Error("Method not implemented.");
     }
 
-    public searchPages(
+    public async searchPages(
         _keyword: string,
         _config: ImbricateSearchPageConfig,
     ): Promise<ImbricatePageSearchResult[]> {
@@ -103,7 +109,7 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    public queryPages(
+    public async queryPages(
         _query: ImbricatePageQuery,
         _config: ImbricatePageQueryConfig,
     ): Promise<IImbricatePage[]> {

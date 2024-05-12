@@ -10,8 +10,8 @@ import { IPageConfig } from "./interface";
 import { IPageModel, PageModel } from "./model";
 
 export const createUnsavedPage = (
-    title: string,
     directories: string[],
+    title: string,
     initialContent: string,
     description?: string,
 ): IPageModel => {
