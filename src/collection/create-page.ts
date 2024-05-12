@@ -7,6 +7,7 @@
 import { storeContent } from "../database/content/controller";
 import { createUnsavedPage } from "../database/page/controller";
 import { MongoImbricatePage } from "../page/page";
+import { digestStringLong } from "../util/digest";
 
 export const mongoCreatePage = async (
     collectionUniqueIdentifier: string,
@@ -17,6 +18,7 @@ export const mongoCreatePage = async (
 ): Promise<MongoImbricatePage> => {
 
     const newPage = createUnsavedPage(
+
         collectionUniqueIdentifier,
         directories,
         title,
@@ -25,7 +27,9 @@ export const mongoCreatePage = async (
     );
 
     await newPage.save();
-    await storeContent(initialContent);
+
+    const digest: string = digestStringLong(initialContent);
+    await storeContent(digest, initialContent);
 
     return MongoImbricatePage.withModel(newPage);
 };

@@ -4,7 +4,6 @@
  * @description Controller
  */
 
-import { digestStringLong } from "../../util/digest";
 import { IContentConfig } from "./interface";
 import { ContentModel, IContentModel } from "./model";
 
@@ -22,10 +21,9 @@ export const createUnsavedContent = (
 };
 
 export const storeContent = async (
+    digest: string,
     content: string,
 ): Promise<IContentModel> => {
-
-    const digest: string = digestStringLong(content);
 
     const existingContent: IContentModel | null =
         await ContentModel.findOne({ digest });

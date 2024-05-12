@@ -8,6 +8,7 @@ import { IImbricatePage, ImbricatePageAttributes, ImbricatePageCapability, Imbri
 import { storeContent } from "../database/content/controller";
 import { ContentModel, IContentModel } from "../database/content/model";
 import { IPageModel } from "../database/page/model";
+import { digestStringLong } from "../util/digest";
 
 export class MongoImbricatePage implements IImbricatePage {
 
@@ -68,7 +69,12 @@ export class MongoImbricatePage implements IImbricatePage {
         content: string,
     ): Promise<void> {
 
-        const contentModel: IContentModel = await storeContent(content);
+        const digest: string = digestStringLong(content);
+
+        if (this.digest === digest) {
+            return;
+        }
+        const contentModel: IContentModel = await storeContent(digest, content);
 
         this._page.updateContent(contentModel.digest);
         await this._page.save();

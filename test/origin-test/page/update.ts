@@ -18,6 +18,7 @@ export const startImbricateOriginPageUpdateTest = (
         const collectionToBeDeleted: string[] = [];
 
         let collection: IImbricateOriginCollection = null as unknown as IImbricateOriginCollection;
+        let page: IImbricatePage = null as unknown as IImbricatePage;
 
         beforeAll(async () => {
 
@@ -50,9 +51,9 @@ export const startImbricateOriginPageUpdateTest = (
 
         it("should be able to create page", async (): Promise<void> => {
 
-            const page: IImbricatePage = await collection.createPage(
+            const testPage: IImbricatePage = await collection.createPage(
                 [],
-                "test-page",
+                "test-page-update",
                 "test-content",
             );
 
@@ -61,28 +62,19 @@ export const startImbricateOriginPageUpdateTest = (
                 collectionIdentifier: collection.uniqueIdentifier,
             });
 
-            expect(page).toBeDefined();
-            expect(page.historyRecords).toHaveLength(1);
+            page = testPage;
 
-            expect(page.historyRecords[0].digest).toBe(page.digest);
+            expect(testPage).toBeDefined();
+            expect(testPage.historyRecords).toHaveLength(1);
+
+            expect(testPage.historyRecords[0].digest).toBe(page.digest);
         });
 
         it("should be able to update page with same content", async (): Promise<void> => {
 
-            const page: IImbricatePage = await collection.createPage(
-                [],
-                "test-page",
-                "test-content",
-            );
+            await page.writeContent("test-content");
 
-            pageToBeDeleted.push({
-                identifier: page.identifier,
-                collectionIdentifier: collection.uniqueIdentifier,
-            });
-
-            expect(page).toBeDefined();
             expect(page.historyRecords).toHaveLength(1);
-
             expect(page.historyRecords[0].digest).toBe(page.digest);
         });
     });
