@@ -7,10 +7,10 @@
 import { IImbricateBinaryStorage, IImbricateFunctionManager, IImbricateOrigin, IImbricateOriginCollection, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNoteImplemented, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateSearchScriptConfig, SandboxExecuteConfig, createAllAllowImbricateOriginCapability } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
 import { Connection } from "mongoose";
-import { CollectionModel } from "../database/collection/model";
+import { MongoImbricateCollection } from "../collection/collection";
+import { CollectionModel, ICollectionModel } from "../database/collection/model";
 import { connectDatabase } from "../database/connect";
 import { mongoCreateCollection } from "./create-collection";
-import { MongoImbricateCollection } from "../collection/collection";
 
 export class MongoImbricateOrigin implements IImbricateOrigin {
 
@@ -107,10 +107,10 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
 
     public async listCollections(): Promise<IImbricateOriginCollection[]> {
 
-        throw ImbricateNoteImplemented.create(
-            "listCollections",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.LIST_COLLECTIONS,
-        );
+        const collectionModels = await CollectionModel.find({});
+        return collectionModels.map((model: ICollectionModel) => {
+            return MongoImbricateCollection.withModel(model);
+        });
     }
 
     public async deleteCollection(
