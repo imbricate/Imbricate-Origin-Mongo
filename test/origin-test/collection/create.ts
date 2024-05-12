@@ -15,21 +15,12 @@ export const startImbricateOriginCollectionCreateTest = (
 
         const toBeDeleted: string[] = [];
 
-        beforeAll(async () => {
-            await testingTarget.construct();
-        });
-
         afterAll(async () => {
 
             const origin: IImbricateOrigin = testingTarget.ensureOrigin();
-
             for (const collectionUniqueIdentifier of toBeDeleted) {
                 await origin.deleteCollection(collectionUniqueIdentifier);
             }
-        });
-
-        afterAll(async () => {
-            await testingTarget.dispose();
         });
 
         it("should not contain collection at the beginning", async (): Promise<void> => {

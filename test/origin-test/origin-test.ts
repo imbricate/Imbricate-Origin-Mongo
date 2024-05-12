@@ -5,6 +5,7 @@
  */
 
 import { startImbricateOriginCollectionCreateTest } from "./collection/create";
+import { startImbricateOriginPageCreateTest } from "./page/create";
 import { ImbricateOriginTestingTarget } from "./testing-target";
 
 export const startImbricateOriginTest = (
@@ -22,6 +23,10 @@ export const startImbricateOriginTest = (
         });
 
         startImbricateOriginCollectionCreateTest(
+            testingTarget,
+        );
+
+        startImbricateOriginPageCreateTest(
             testingTarget,
         );
     });
