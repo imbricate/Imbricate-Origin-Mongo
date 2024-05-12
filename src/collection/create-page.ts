@@ -4,6 +4,7 @@
  * @description Create Page
  */
 
+import { storeContent } from "../database/content/controller";
 import { createUnsavedPage } from "../database/page/controller";
 import { MongoImbricatePage } from "../page/page";
 
@@ -22,6 +23,7 @@ export const mongoCreatePage = async (
     );
 
     await newPage.save();
+    await storeContent(initialContent);
 
     return MongoImbricatePage.withModel(newPage);
 };

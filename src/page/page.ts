@@ -5,10 +5,9 @@
  */
 
 import { IImbricatePage, ImbricatePageAttributes, ImbricatePageCapability, ImbricatePageHistoryRecord, createAllAllowImbricatePageCapability } from "@imbricate/core";
-import { createUnsavedContent } from "../database/content/controller";
-import { ContentModel, IContentModel } from "../database/content/model";
+import { storeContent } from "../database/content/controller";
+import { ContentModel } from "../database/content/model";
 import { IPageModel } from "../database/page/model";
-import { digestStringLong } from "../util/digest";
 
 export class MongoImbricatePage implements IImbricatePage {
 
@@ -69,13 +68,7 @@ export class MongoImbricatePage implements IImbricatePage {
         content: string,
     ): Promise<void> {
 
-        const newDigest: string = digestStringLong(content);
-
-        const digestedContent: IContentModel = createUnsavedContent(
-            newDigest,
-            content,
-        );
-        await digestedContent.save();
+        await storeContent(content);
     }
 
     public async readAttributes(): Promise<ImbricatePageAttributes> {
