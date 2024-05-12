@@ -5,21 +5,30 @@
  */
 
 import { IImbricateOrigin } from "@imbricate/core";
+import { ImbricateOriginTestingTarget } from "../testing-target";
 
 export const startImbricateOriginCollectionCreateTest = (
-    origin: IImbricateOrigin,
+    testingTarget: ImbricateOriginTestingTarget,
 ): void => {
 
-    describe(`Test Imbricate Collection Create for a "${origin.originType}" Origin`, () => {
+    describe("Test Imbricate Collection Create", () => {
+
+        beforeAll(async () => {
+            await testingTarget.construct();
+        });
 
         afterAll(async () => {
+            await testingTarget.dispose();
+        });
 
-            await origin.deleteCollection("test-collection");
+        afterAll(async () => {
+            await testingTarget.ensureOrigin().deleteCollection("test-collection");
         });
 
         it("should not contain collection at the beginning",
             async (): Promise<void> => {
 
+                const origin: IImbricateOrigin = testingTarget.ensureOrigin();
                 const hasCollection: boolean = await origin.hasCollection("test-collection");
 
                 expect(hasCollection).toBeFalsy();
@@ -29,6 +38,7 @@ export const startImbricateOriginCollectionCreateTest = (
         it("should be able to create collection",
             async (): Promise<void> => {
 
+                const origin: IImbricateOrigin = testingTarget.ensureOrigin();
                 await origin.createCollection("test-collection");
 
                 const hasCollection: boolean = await origin.hasCollection("test-collection");

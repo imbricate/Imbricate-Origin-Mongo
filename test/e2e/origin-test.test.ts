@@ -7,15 +7,15 @@
 
 import { MongoImbricateOrigin } from "../../src";
 import { startImbricateOriginTest } from "../origin-test/origin-test";
+import { ImbricateOriginTestingTarget } from "../origin-test/testing-target";
 
 describe("Placeholder", (): void => {
 
-    let origin: MongoImbricateOrigin | null = null;
+    const testingTarget = ImbricateOriginTestingTarget.fromConstructor(async () => {
 
-    beforeAll(async () => {
-
-        origin = await MongoImbricateOrigin.create("mongodb://localhost:27017");
+        const origin: MongoImbricateOrigin = await MongoImbricateOrigin.create("mongodb://localhost:27017");
+        return origin;
     });
 
-    startImbricateOriginTest(origin as unknown as MongoImbricateOrigin);
+    startImbricateOriginTest(testingTarget);
 });
