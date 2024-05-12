@@ -43,6 +43,7 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
     ): Promise<IImbricatePage> {
 
         return await mongoCreatePage(
+            this._collection.uniqueIdentifier,
             directories,
             title,
             initialContent,
@@ -67,10 +68,13 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
     }
 
     public async deletePage(
-        _identifier: string,
+        identifier: string,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        await PageModel.deleteOne({
+            collectionUniqueIdentifier: this._collection.uniqueIdentifier,
+            identifier,
+        });
     }
 
     public async hasPage(
@@ -86,6 +90,7 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
     ): Promise<IImbricatePage | null> {
 
         const page = await PageModel.findOne({
+            collectionUniqueIdentifier: this._collection.uniqueIdentifier,
             identifier,
         });
 

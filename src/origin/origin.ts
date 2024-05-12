@@ -75,13 +75,17 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
     }
 
     public async getCollection(
-        _collectionUniqueIdentifier: string,
+        collectionUniqueIdentifier: string,
     ): Promise<IImbricateOriginCollection | null> {
 
-        throw ImbricateNoteImplemented.create(
-            "getCollection",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_COLLECTION,
-        );
+        const collectionModel: ICollectionModel | null = await CollectionModel.findOne({
+            uniqueIdentifier: collectionUniqueIdentifier,
+        });
+
+        if (!collectionModel) {
+            return null;
+        }
+        return MongoImbricateCollection.withModel(collectionModel);
     }
 
     public async findCollection(

@@ -9,6 +9,7 @@ import { createUnsavedPage } from "../database/page/controller";
 import { MongoImbricatePage } from "../page/page";
 
 export const mongoCreatePage = async (
+    collectionUniqueIdentifier: string,
     directories: string[],
     title: string,
     initialContent: string,
@@ -16,6 +17,7 @@ export const mongoCreatePage = async (
 ): Promise<MongoImbricatePage> => {
 
     const newPage = createUnsavedPage(
+        collectionUniqueIdentifier,
         directories,
         title,
         initialContent,

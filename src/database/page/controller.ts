@@ -10,6 +10,7 @@ import { IPageConfig } from "./interface";
 import { IPageModel, PageModel } from "./model";
 
 export const createUnsavedPage = (
+    collectionUniqueIdentifier: string,
     directories: string[],
     title: string,
     initialContent: string,
@@ -20,6 +21,8 @@ export const createUnsavedPage = (
     const contentDigest: string = digestStringLong(initialContent);
 
     const pageConfig: IPageConfig = {
+
+        collectionUniqueIdentifier,
 
         title,
         description,

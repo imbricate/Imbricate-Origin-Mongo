@@ -25,6 +25,11 @@ const PageHistoryRecordSchema: Schema = new Schema(
 
 const PageSchema: Schema<IPageModel> = new Schema(
     {
+        collectionUniqueIdentifier: {
+            type: String,
+            required: true,
+            index: true,
+        },
         title: {
             type: String,
             required: true,

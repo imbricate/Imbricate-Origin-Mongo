@@ -12,6 +12,8 @@ export interface IPageHistoryRecord {
 
 export interface IPageConfig {
 
+    collectionUniqueIdentifier: string;
+
     title: string;
     description?: string;
 
