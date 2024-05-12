@@ -10,6 +10,7 @@ import { Connection } from "mongoose";
 import { CollectionModel } from "../database/collection/model";
 import { connectDatabase } from "../database/connect";
 import { mongoCreateCollection } from "./create-collection";
+import { MongoImbricateCollection } from "../collection/collection";
 
 export class MongoImbricateOrigin implements IImbricateOrigin {
 
@@ -56,7 +57,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
     public async createCollection(
         collectionName: string,
         description?: string,
-    ): Promise<void> {
+    ): Promise<MongoImbricateCollection> {
 
         return await mongoCreateCollection(
             collectionName,

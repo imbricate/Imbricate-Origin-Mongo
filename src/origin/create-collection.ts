@@ -4,12 +4,13 @@
  * @description Create Collection
  */
 
+import { MongoImbricateCollection } from "../collection/collection";
 import { createUnsavedCollection } from "../database/collection/controller";
 
 export const mongoCreateCollection = async (
     collectionName: string,
     description?: string,
-): Promise<void> => {
+): Promise<MongoImbricateCollection> => {
 
     const newCollection = createUnsavedCollection(
         collectionName,
@@ -17,4 +18,6 @@ export const mongoCreateCollection = async (
     );
 
     await newCollection.save();
+
+    return MongoImbricateCollection.withModel(newCollection);
 };
