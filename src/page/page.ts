@@ -6,7 +6,7 @@
 
 import { IImbricatePage, ImbricatePageAttributes, ImbricatePageCapability, ImbricatePageHistoryRecord, createAllAllowImbricatePageCapability } from "@imbricate/core";
 import { storeContent } from "../database/content/controller";
-import { ContentModel } from "../database/content/model";
+import { ContentModel, IContentModel } from "../database/content/model";
 import { IPageModel } from "../database/page/model";
 
 export class MongoImbricatePage implements IImbricatePage {
@@ -68,7 +68,10 @@ export class MongoImbricatePage implements IImbricatePage {
         content: string,
     ): Promise<void> {
 
-        await storeContent(content);
+        const contentModel: IContentModel = await storeContent(content);
+
+        this._page.updateContent(contentModel.digest);
+        await this._page.save();
     }
 
     public async readAttributes(): Promise<ImbricatePageAttributes> {

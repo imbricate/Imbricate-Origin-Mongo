@@ -26,7 +26,8 @@ export const startImbricateOriginCollectionCreateTest = (
         it("should not contain collection at the beginning", async (): Promise<void> => {
 
             const origin: IImbricateOrigin = testingTarget.ensureOrigin();
-            const hasCollection: boolean = await origin.hasCollection("test-collection");
+            const hasCollection: boolean =
+                await origin.hasCollection("test-collection");
 
             expect(hasCollection).toBeFalsy();
         });

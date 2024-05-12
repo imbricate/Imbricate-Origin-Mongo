@@ -63,11 +63,23 @@ const PageSchema: Schema<IPageModel> = new Schema(
             createdAt: true,
             updatedAt: true,
         },
-        methods: {},
+        methods: {
+            async updateContent(this: IPageModel, contentDigest: string): Promise<IPageModel> {
+
+                this.digest = contentDigest;
+                this.historyRecords.push({
+                    updatedAt: new Date(),
+                    digest: contentDigest,
+                });
+                return this;
+            },
+        },
     },
 );
 
 export interface IPageModel extends IPage, Document {
+
+    updateContent(contentDigest: string): IPageModel;
 }
 
 export const PageModel: Model<IPageModel> = model<IPageModel>(

@@ -5,14 +5,14 @@
  */
 
 import { IImbricateOrigin, IImbricateOriginCollection, IImbricatePage } from "@imbricate/core";
-import { ImbricateOriginTestingTarget } from "../testing-target";
 import { PageToBeDeleted } from "../definition";
+import { ImbricateOriginTestingTarget } from "../testing-target";
 
-export const startImbricateOriginPageCreateTest = (
+export const startImbricateOriginPageUpdateTest = (
     testingTarget: ImbricateOriginTestingTarget,
 ): void => {
 
-    describe("Test Imbricate Page Create", () => {
+    describe("Test Imbricate Page Update", () => {
 
         const pageToBeDeleted: PageToBeDeleted[] = [];
         const collectionToBeDeleted: string[] = [];
@@ -23,7 +23,7 @@ export const startImbricateOriginPageCreateTest = (
 
             const origin: IImbricateOrigin = testingTarget.ensureOrigin();
             const testCollection: IImbricateOriginCollection =
-                await origin.createCollection("test-page-create");
+                await origin.createCollection("test-page-update");
 
             collectionToBeDeleted.push(testCollection.uniqueIdentifier);
 
@@ -62,10 +62,28 @@ export const startImbricateOriginPageCreateTest = (
             });
 
             expect(page).toBeDefined();
+            expect(page.historyRecords).toHaveLength(1);
 
-            const pageContent: string = await page.readContent();
+            expect(page.historyRecords[0].digest).toBe(page.digest);
+        });
 
-            expect(pageContent).toBe("test-content");
+        it("should be able to update page with same content", async (): Promise<void> => {
+
+            const page: IImbricatePage = await collection.createPage(
+                [],
+                "test-page",
+                "test-content",
+            );
+
+            pageToBeDeleted.push({
+                identifier: page.identifier,
+                collectionIdentifier: collection.uniqueIdentifier,
+            });
+
+            expect(page).toBeDefined();
+            expect(page.historyRecords).toHaveLength(1);
+
+            expect(page.historyRecords[0].digest).toBe(page.digest);
         });
     });
 };
