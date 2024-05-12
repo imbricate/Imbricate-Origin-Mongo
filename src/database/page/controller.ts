@@ -1,25 +1,39 @@
 /**
  * @author WMXPY
- * @namespace Database_Collection
+ * @namespace Database_Page
  * @description Controller
  */
 
 import { UUIDVersion1 } from "@sudoo/uuid";
-import { ICollectionConfig } from "./interface";
-import { CollectionModel, ICollectionModel } from "./model";
+import { digestString } from "../../util/digest";
+import { IPageConfig } from "./interface";
+import { IPageModel, PageModel } from "./model";
 
-export const createUnsavedCollection = (
-    collectionName: string,
+export const createUnsavedPage = (
+    title: string,
+    directories: string[],
+    initialContent: string,
     description?: string,
-): ICollectionModel => {
+): IPageModel => {
 
-    const uniqueIdentifier: string = UUIDVersion1.generateString();
+    const identifier: string = UUIDVersion1.generateString();
+    const contentDigest: string = digestString(initialContent);
 
-    const accountConfig: ICollectionConfig = {
+    const accountConfig: IPageConfig = {
 
-        collectionName,
-        uniqueIdentifier,
+        title,
         description,
+
+        directories,
+        identifier,
+
+        digest: contentDigest,
+
+        historyRecords: [{
+            updatedAt: new Date(),
+            digest: contentDigest,
+        }],
     };
-    return new CollectionModel(accountConfig);
+
+    return new PageModel(accountConfig);
 };

@@ -1,29 +1,56 @@
 /**
  * @author WMXPY
- * @namespace Database_Collection
+ * @namespace Database_Page
  * @description Model
  */
 
 import { Document, Model, Schema, model } from "mongoose";
-import { ICollection } from "./interface";
+import { IPage } from "./interface";
 
-const CollectionSchema: Schema<ICollectionModel> = new Schema(
+const PageHistoryRecordSchema: Schema = new Schema(
     {
-        collectionName: {
-            type: String,
+        updatedAt: {
+            type: Date,
             required: true,
-            index: true,
-            unique: true,
         },
-        uniqueIdentifier: {
+        digest: {
+            type: String,
+            required: true,
+        },
+    },
+    {
+        _id: false,
+    },
+);
+
+const PageSchema: Schema<IPageModel> = new Schema(
+    {
+        title: {
             type: String,
             required: true,
             index: true,
-            unique: true,
         },
         description: {
             type: String,
             required: false,
+        },
+        directories: {
+            type: [String],
+            required: true,
+            index: true,
+        },
+        identifier: {
+            type: String,
+            required: true,
+            index: true,
+        },
+        digest: {
+            type: String,
+            required: true,
+        },
+        historyRecords: {
+            type: [PageHistoryRecordSchema],
+            required: true,
         },
     },
     {
@@ -35,10 +62,10 @@ const CollectionSchema: Schema<ICollectionModel> = new Schema(
     },
 );
 
-export interface ICollectionModel extends ICollection, Document {
+export interface IPageModel extends IPage, Document {
 }
 
-export const CollectionModel: Model<ICollectionModel> = model<ICollectionModel>(
-    "Collection",
-    CollectionSchema,
+export const PageModel: Model<IPageModel> = model<IPageModel>(
+    "Page",
+    PageSchema,
 );
