@@ -7,6 +7,7 @@
 import { IImbricateBinaryStorage, IImbricateFunctionManager, IImbricateOrigin, IImbricateOriginCollection, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNoteImplemented, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateSearchScriptConfig, SandboxExecuteConfig, createAllAllowImbricateOriginCapability } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
 import { connectDatabase } from "../database/connect";
+import { mongoCreateCollection } from "./create-collection";
 
 export class MongoImbricateOrigin implements IImbricateOrigin {
 
@@ -45,11 +46,14 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         throw new Error("Method not implemented.");
     }
 
-    public async createCollection(): Promise<void> {
+    public async createCollection(
+        collectionName: string,
+        description?: string,
+    ): Promise<void> {
 
-        throw ImbricateNoteImplemented.create(
-            "createCollection",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.CREATE_COLLECTION,
+        return await mongoCreateCollection(
+            collectionName,
+            description,
         );
     }
 
