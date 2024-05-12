@@ -6,7 +6,7 @@
 
 import { createHash } from "crypto";
 
-export const digestString = (input: string): string => {
+export const digestStringLong = (input: string): string => {
 
-    return createHash("sha1").update(input).digest("hex");
+    return createHash("sha256").update(input).digest("hex");
 };

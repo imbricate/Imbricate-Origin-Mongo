@@ -5,7 +5,10 @@
  */
 
 import { IImbricatePage, ImbricatePageAttributes, ImbricatePageCapability, ImbricatePageHistoryRecord, createAllAllowImbricatePageCapability } from "@imbricate/core";
+import { createUnsavedContent } from "../database/content/controller";
+import { ContentModel, IContentModel } from "../database/content/model";
 import { IPageModel } from "../database/page/model";
+import { digestStringLong } from "../util/digest";
 
 export class MongoImbricatePage implements IImbricatePage {
 
@@ -50,21 +53,36 @@ export class MongoImbricatePage implements IImbricatePage {
         return this._page.updatedAt;
     }
 
-    public readContent(): Promise<string> {
-        throw new Error("Method not implemented.");
+    public async readContent(): Promise<string> {
+
+        const content = await ContentModel.findOne({
+            digest: this.digest,
+        });
+
+        if (!content) {
+            throw new Error("Content not found");
+        }
+        return content.content;
     }
 
-    public writeContent(
-        _content: string,
+    public async writeContent(
+        content: string,
     ): Promise<void> {
+
+        const newDigest: string = digestStringLong(content);
+
+        const digestedContent: IContentModel = createUnsavedContent(
+            newDigest,
+            content,
+        );
+        await digestedContent.save();
+    }
+
+    public async readAttributes(): Promise<ImbricatePageAttributes> {
         throw new Error("Method not implemented.");
     }
 
-    public readAttributes(): Promise<ImbricatePageAttributes> {
-        throw new Error("Method not implemented.");
-    }
-
-    public writeAttribute(
+    public async writeAttribute(
         _key: string,
         _value: string,
     ): Promise<void> {
@@ -72,7 +90,7 @@ export class MongoImbricatePage implements IImbricatePage {
         throw new Error("Method not implemented.");
     }
 
-    public refreshUpdateMetadata(
+    public async refreshUpdateMetadata(
         _updatedAt: Date,
         _digest: string,
     ): Promise<void> {
@@ -80,21 +98,21 @@ export class MongoImbricatePage implements IImbricatePage {
         throw new Error("Method not implemented.");
     }
 
-    public refreshUpdatedAt(
+    public async refreshUpdatedAt(
         _updatedAt: Date,
     ): Promise<void> {
 
         throw new Error("Method not implemented.");
     }
 
-    public refreshDigest(
+    public async refreshDigest(
         _digest: string,
     ): Promise<void> {
 
         throw new Error("Method not implemented.");
     }
 
-    public addHistoryRecord(
+    public async addHistoryRecord(
         _record: ImbricatePageHistoryRecord,
     ): Promise<void> {
 

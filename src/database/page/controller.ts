@@ -5,7 +5,7 @@
  */
 
 import { UUIDVersion1 } from "@sudoo/uuid";
-import { digestString } from "../../util/digest";
+import { digestStringLong } from "../../util/digest";
 import { IPageConfig } from "./interface";
 import { IPageModel, PageModel } from "./model";
 
@@ -17,9 +17,9 @@ export const createUnsavedPage = (
 ): IPageModel => {
 
     const identifier: string = UUIDVersion1.generateString();
-    const contentDigest: string = digestString(initialContent);
+    const contentDigest: string = digestStringLong(initialContent);
 
-    const accountConfig: IPageConfig = {
+    const pageConfig: IPageConfig = {
 
         title,
         description,
@@ -34,6 +34,5 @@ export const createUnsavedPage = (
             digest: contentDigest,
         }],
     };
-
-    return new PageModel(accountConfig);
+    return new PageModel(pageConfig);
 };

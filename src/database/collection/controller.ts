@@ -15,11 +15,11 @@ export const createUnsavedCollection = (
 
     const uniqueIdentifier: string = UUIDVersion1.generateString();
 
-    const accountConfig: ICollectionConfig = {
+    const collectionConfig: ICollectionConfig = {
 
         collectionName,
         uniqueIdentifier,
         description,
     };
-    return new CollectionModel(accountConfig);
+    return new CollectionModel(collectionConfig);
 };
