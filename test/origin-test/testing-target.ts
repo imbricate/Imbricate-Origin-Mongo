@@ -47,6 +47,7 @@ export class ImbricateOriginTestingTarget {
         if (!constructed) {
             throw new Error("Origin not constructed");
         }
+        this._targetOrigin = constructed;
     }
 
     public async dispose(): Promise<void> {

@@ -18,11 +18,13 @@ export const startImbricateOriginCollectionCreateTest = (
         });
 
         afterAll(async () => {
-            await testingTarget.dispose();
+
+            const origin: IImbricateOrigin = testingTarget.ensureOrigin();
+            await origin.deleteCollection("test-collection");
         });
 
         afterAll(async () => {
-            await testingTarget.ensureOrigin().deleteCollection("test-collection");
+            await testingTarget.dispose();
         });
 
         it("should not contain collection at the beginning",
