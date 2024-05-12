@@ -10,7 +10,7 @@ export const startImbricateOriginCollectionCreateTest = (
     origin: IImbricateOrigin,
 ): void => {
 
-    describe(`Test Imbricate Collection Create for a ${origin.originType} Origin`, () => {
+    describe(`Test Imbricate Collection Create for a "${origin.originType}" Origin`, () => {
 
         it("should be able to create collection", async (): Promise<void> => {
 

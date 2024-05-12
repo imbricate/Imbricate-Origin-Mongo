@@ -8,6 +8,7 @@ import { IImbricateBinaryStorage, IImbricateFunctionManager, IImbricateOrigin, I
 import { MarkedResult } from "@sudoo/marked";
 import { connectDatabase } from "../database/connect";
 import { mongoCreateCollection } from "./create-collection";
+import { mongoHasCollection } from "./has-collection";
 
 export class MongoImbricateOrigin implements IImbricateOrigin {
 
@@ -20,7 +21,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         return new MongoImbricateOrigin();
     }
 
-    public readonly originType: string = "Mongo";
+    public readonly originType: string = "mongo";
     public readonly capabilities: ImbricateOriginCapability =
         createAllAllowImbricateOriginCapability();
 
@@ -57,12 +58,9 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         );
     }
 
-    public async hasCollection(_collectionName: string): Promise<boolean> {
+    public async hasCollection(collectionName: string): Promise<boolean> {
 
-        throw ImbricateNoteImplemented.create(
-            "hasCollection",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_COLLECTION,
-        );
+        return await mongoHasCollection(collectionName);
     }
 
     public async getCollection(
