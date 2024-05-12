@@ -18,6 +18,8 @@ jobs:
           - 20
         architecture:
           - x64
+        mongodb-version:
+          - 6.0
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -38,7 +40,7 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
-          mongodb-version: "6.0"
+          mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-port: 27017
       - name: Test
         run: |
