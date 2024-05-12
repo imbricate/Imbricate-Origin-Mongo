@@ -6,6 +6,7 @@
 
 import { IImbricateBinaryStorage, IImbricateFunctionManager, IImbricateOrigin, IImbricateOriginCollection, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNoteImplemented, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateSearchScriptConfig, SandboxExecuteConfig, createAllAllowImbricateOriginCapability } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
+import { Connection } from "mongoose";
 import { CollectionModel } from "../database/collection/model";
 import { connectDatabase } from "../database/connect";
 import { mongoCreateCollection } from "./create-collection";
@@ -16,9 +17,9 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         database: string,
     ): Promise<MongoImbricateOrigin> {
 
-        await connectDatabase(database);
+        const connection: Connection = await connectDatabase(database);
 
-        return new MongoImbricateOrigin();
+        return new MongoImbricateOrigin(connection);
     }
 
     public readonly originType: string = "mongo";
@@ -30,8 +31,13 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
     };
     public readonly payloads: Record<string, any> = {};
 
-    private constructor() {
+    private readonly _connection: Connection;
 
+    private constructor(
+        connection: Connection,
+    ) {
+
+        this._connection = connection;
     }
 
     public get uniqueIdentifier(): string {
@@ -227,5 +233,10 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
             "executeScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
         );
+    }
+
+    public async dispose(): Promise<void> {
+
+        await this._connection.close();
     }
 }
