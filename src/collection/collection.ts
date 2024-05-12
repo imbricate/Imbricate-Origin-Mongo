@@ -33,7 +33,7 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         return this._collection.description;
     }
 
-    createPage(
+    public createPage(
         _directories: string[],
         _title: string,
         _initialContent: string,
@@ -42,7 +42,7 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    putPage(
+    public putPage(
         _pageMetadata: ImbricatePageMetadata,
         _content: string,
     ): Promise<IImbricatePage> {
@@ -50,7 +50,7 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    retitlePage(
+    public retitlePage(
         _identifier: string,
         _newTitle: string,
     ): Promise<void> {
@@ -58,14 +58,14 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    deletePage(
+    public deletePage(
         _identifier: string,
     ): Promise<void> {
 
         throw new Error("Method not implemented.");
     }
 
-    hasPage(
+    public hasPage(
         _directories: string[],
         _title: string,
     ): Promise<boolean> {
@@ -73,14 +73,14 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    getPage(
+    public getPage(
         _identifier: string,
     ): Promise<IImbricatePage | null> {
 
         throw new Error("Method not implemented.");
     }
 
-    listPages(
+    public listPages(
         _directories: string[],
         _recursive: boolean,
     ): Promise<ImbricatePageSnapshot[]> {
@@ -88,14 +88,14 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    listDirectories(
+    public listDirectories(
         _directories: string[],
     ): Promise<string[]> {
 
         throw new Error("Method not implemented.");
     }
 
-    searchPages(
+    public searchPages(
         _keyword: string,
         _config: ImbricateSearchPageConfig,
     ): Promise<ImbricatePageSearchResult[]> {
@@ -103,7 +103,7 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
         throw new Error("Method not implemented.");
     }
 
-    queryPages(
+    public queryPages(
         _query: ImbricatePageQuery,
         _config: ImbricatePageQueryConfig,
     ): Promise<IImbricatePage[]> {
