@@ -6,10 +6,9 @@
 
 import { IImbricateBinaryStorage, IImbricateFunctionManager, IImbricateOrigin, IImbricateOriginCollection, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNoteImplemented, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateSearchScriptConfig, SandboxExecuteConfig, createAllAllowImbricateOriginCapability } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
+import { CollectionModel } from "../database/collection/model";
 import { connectDatabase } from "../database/connect";
 import { mongoCreateCollection } from "./create-collection";
-import { mongoHasCollection } from "./has-collection";
-import { CollectionModel } from "../database/collection/model";
 
 export class MongoImbricateOrigin implements IImbricateOrigin {
 
@@ -61,7 +60,11 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
 
     public async hasCollection(collectionName: string): Promise<boolean> {
 
-        return await mongoHasCollection(collectionName);
+        const exists = await CollectionModel.exists({
+            collectionName,
+        });
+
+        return Boolean(exists);
     }
 
     public async getCollection(

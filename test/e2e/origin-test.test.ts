@@ -8,6 +8,11 @@
 import { MongoImbricateOrigin } from "../../src";
 import { startImbricateOriginTest } from "../origin-test/origin-test";
 
-const origin = await MongoImbricateOrigin.create("mongodb://localhost:27017");
+(async () => {
 
-startImbricateOriginTest(origin);
+    const origin = await MongoImbricateOrigin.create("mongodb://localhost:27017");
+
+    describe('Origin', () => {
+        startImbricateOriginTest(origin);
+    });
+})();
