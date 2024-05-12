@@ -1,25 +1,21 @@
 /**
  * @author WMXPY
- * @namespace Database_Collection
+ * @namespace Database_Content
  * @description Controller
  */
 
-import { UUIDVersion1 } from "@sudoo/uuid";
-import { ICollectionConfig } from "./interface";
-import { CollectionModel, ICollectionModel } from "./model";
+import { IContentConfig } from "./interface";
+import { ContentModel, IContentModel } from "./model";
 
-export const createUnsavedCollection = (
-    collectionName: string,
-    description?: string,
-): ICollectionModel => {
+export const createUnsavedContent = (
+    digest: string,
+    content: string,
+): IContentModel => {
 
-    const uniqueIdentifier: string = UUIDVersion1.generateString();
+    const contentConfig: IContentConfig = {
 
-    const accountConfig: ICollectionConfig = {
-
-        collectionName,
-        uniqueIdentifier,
-        description,
+        digest,
+        content,
     };
-    return new CollectionModel(accountConfig);
+    return new ContentModel(contentConfig);
 };

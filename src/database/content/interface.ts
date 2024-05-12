@@ -1,19 +1,16 @@
 /**
  * @author WMXPY
- * @namespace Database_Collection
+ * @namespace Database_Content
  * @description Interface
  */
 
-export interface ICollectionConfig {
+export interface IContentConfig {
 
-    collectionName: string;
-
-    readonly uniqueIdentifier: string;
-
-    description?: string;
+    readonly digest: string;
+    readonly content: string;
 }
 
-export interface ICollection extends ICollectionConfig {
+export interface IContent extends IContentConfig {
 
     readonly createdAt: Date;
     readonly updatedAt: Date;

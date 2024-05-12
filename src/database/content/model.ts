@@ -1,29 +1,23 @@
 /**
  * @author WMXPY
- * @namespace Database_Collection
+ * @namespace Database_Content
  * @description Model
  */
 
 import { Document, Model, Schema, model } from "mongoose";
-import { ICollection } from "./interface";
+import { IContent } from "./interface";
 
-const CollectionSchema: Schema<ICollectionModel> = new Schema(
+const ContentSchema: Schema<IContentModel> = new Schema(
     {
-        collectionName: {
+        digest: {
             type: String,
             required: true,
-            index: true,
             unique: true,
+            index: true,
         },
-        uniqueIdentifier: {
+        content: {
             type: String,
             required: true,
-            index: true,
-            unique: true,
-        },
-        description: {
-            type: String,
-            required: false,
         },
     },
     {
@@ -35,10 +29,10 @@ const CollectionSchema: Schema<ICollectionModel> = new Schema(
     },
 );
 
-export interface ICollectionModel extends ICollection, Document {
+export interface IContentModel extends IContent, Document {
 }
 
-export const CollectionModel: Model<ICollectionModel> = model<ICollectionModel>(
-    "Collection",
-    CollectionSchema,
+export const ContentModel: Model<IContentModel> = model<IContentModel>(
+    "Content",
+    ContentSchema,
 );
