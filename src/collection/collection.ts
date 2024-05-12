@@ -6,6 +6,8 @@
 
 import { IImbricateOriginCollection, IImbricatePage, ImbricateCollectionCapability, ImbricatePageMetadata, ImbricatePageQuery, ImbricatePageQueryConfig, ImbricatePageSearchResult, ImbricatePageSnapshot, ImbricateSearchPageConfig, createAllAllowImbricateCollectionCapability } from "@imbricate/core";
 import { ICollectionModel } from "../database/collection/model";
+import { PageModel } from "../database/page/model";
+import { MongoImbricatePage } from "../page/page";
 import { mongoCreatePage } from "./create-page";
 
 export class MongoImbricateCollection implements IImbricateOriginCollection {
@@ -80,10 +82,17 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
     }
 
     public async getPage(
-        _identifier: string,
+        identifier: string,
     ): Promise<IImbricatePage | null> {
 
-        throw new Error("Method not implemented.");
+        const page = await PageModel.findOne({
+            identifier,
+        });
+
+        if (!page) {
+            return null;
+        }
+        return MongoImbricatePage.withModel(page);
     }
 
     public async listPages(
