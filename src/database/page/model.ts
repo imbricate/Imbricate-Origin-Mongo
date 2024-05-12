@@ -67,7 +67,7 @@ const PageSchema: Schema<IPageModel> = new Schema(
             async updateContent(this: IPageModel, contentDigest: string): Promise<IPageModel> {
 
                 this.digest = contentDigest;
-                this.historyRecords.push({
+                this.historyRecords = this.historyRecords.concat({
                     updatedAt: new Date(),
                     digest: contentDigest,
                 });

@@ -29,6 +29,18 @@ export const startImbricateOriginPageUpdateTest = (
             collectionToBeDeleted.push(testCollection.uniqueIdentifier);
 
             collection = testCollection;
+
+            const testPage: IImbricatePage = await collection.createPage(
+                [],
+                "test-page-update",
+                "test-content",
+            );
+
+            pageToBeDeleted.push({
+                identifier: testPage.identifier,
+                collectionIdentifier: collection.uniqueIdentifier,
+            });
+            page = testPage;
         });
 
         afterAll(async () => {
@@ -49,25 +61,12 @@ export const startImbricateOriginPageUpdateTest = (
             }
         });
 
-        it("should be able to create page", async (): Promise<void> => {
+        it("verify page is created", async (): Promise<void> => {
 
-            const testPage: IImbricatePage = await collection.createPage(
-                [],
-                "test-page-update",
-                "test-content",
-            );
+            expect(page).toBeDefined();
+            expect(page.historyRecords).toHaveLength(1);
 
-            pageToBeDeleted.push({
-                identifier: page.identifier,
-                collectionIdentifier: collection.uniqueIdentifier,
-            });
-
-            page = testPage;
-
-            expect(testPage).toBeDefined();
-            expect(testPage.historyRecords).toHaveLength(1);
-
-            expect(testPage.historyRecords[0].digest).toBe(page.digest);
+            expect(page.historyRecords[0].digest).toBe(page.digest);
         });
 
         it("should be able to update page with same content", async (): Promise<void> => {
@@ -76,6 +75,14 @@ export const startImbricateOriginPageUpdateTest = (
 
             expect(page.historyRecords).toHaveLength(1);
             expect(page.historyRecords[0].digest).toBe(page.digest);
+        });
+
+        it("should be able to update page with different content", async (): Promise<void> => {
+
+            await page.writeContent("test-content-2");
+
+            expect(page.historyRecords).toHaveLength(2);
+            expect(page.historyRecords[0].digest).not.toBe(page.digest);
         });
     });
 };
