@@ -9,6 +9,7 @@ import { MarkedResult } from "@sudoo/marked";
 import { connectDatabase } from "../database/connect";
 import { mongoCreateCollection } from "./create-collection";
 import { mongoHasCollection } from "./has-collection";
+import { CollectionModel } from "../database/collection/model";
 
 export class MongoImbricateOrigin implements IImbricateOrigin {
 
@@ -102,12 +103,13 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         );
     }
 
-    public async deleteCollection(): Promise<void> {
+    public async deleteCollection(
+        collectionUniqueIdentifier: string,
+    ): Promise<void> {
 
-        throw ImbricateNoteImplemented.create(
-            "removeCollection",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.DELETE_COLLECTION,
-        );
+        await CollectionModel.deleteOne({
+            uniqueIdentifier: collectionUniqueIdentifier,
+        });
     }
 
     public async createScript(
