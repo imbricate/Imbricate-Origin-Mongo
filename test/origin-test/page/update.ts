@@ -12,7 +12,7 @@ export const startImbricateOriginPageUpdateTest = (
     testingTarget: ImbricateOriginTestingTarget,
 ): void => {
 
-    describe("Test Imbricate Page Update", () => {
+    describe("Test Imbricate Page (Update) Features", () => {
 
         const pageToBeDeleted: PageToBeDeleted[] = [];
         const collectionToBeDeleted: string[] = [];

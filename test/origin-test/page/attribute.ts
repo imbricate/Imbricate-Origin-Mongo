@@ -1,18 +1,18 @@
 /**
  * @author WMXPY
  * @namespace Page
- * @description Create
+ * @description Attribute
  */
 
 import { IImbricateOrigin, IImbricateOriginCollection, IImbricatePage } from "@imbricate/core";
 import { ImbricateOriginTestingTarget } from "../testing-target";
 import { PageToBeDeleted } from "../definition";
 
-export const startImbricateOriginPageCreateTest = (
+export const startImbricateOriginPageAttributeTest = (
     testingTarget: ImbricateOriginTestingTarget,
 ): void => {
 
-    describe("Test Imbricate Page (Create) Features", () => {
+    describe("Test Imbricate Page (Attribute) Features", () => {
 
         const pageToBeDeleted: PageToBeDeleted[] = [];
         const collectionToBeDeleted: string[] = [];

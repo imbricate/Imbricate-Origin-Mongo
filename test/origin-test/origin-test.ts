@@ -13,7 +13,7 @@ export const startImbricateOriginTest = (
     testingTarget: ImbricateOriginTestingTarget,
 ): void => {
 
-    describe("Test Imbricate Origin with Imbricate Origin Testing Jest", () => {
+    describe("End-to-End Test for Imbricate Origin with Imbricate Origin Testing in Jest", () => {
 
         beforeAll(async () => {
             await testingTarget.construct();

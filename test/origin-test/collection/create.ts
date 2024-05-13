@@ -11,7 +11,7 @@ export const startImbricateOriginCollectionCreateTest = (
     testingTarget: ImbricateOriginTestingTarget,
 ): void => {
 
-    describe("Test Imbricate Collection Create", () => {
+    describe("Test Imbricate Collection (Create) Features", () => {
 
         const toBeDeleted: string[] = [];
 
