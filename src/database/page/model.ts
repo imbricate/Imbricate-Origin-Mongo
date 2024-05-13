@@ -57,6 +57,10 @@ const PageSchema: Schema<IPageModel> = new Schema(
             type: String,
             required: true,
         },
+        attributes: {
+            type: Object,
+            required: true,
+        },
         historyRecords: {
             type: [PageHistoryRecordSchema],
             required: true,

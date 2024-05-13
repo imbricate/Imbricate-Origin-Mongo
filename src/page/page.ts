@@ -82,15 +82,19 @@ export class MongoImbricatePage implements IImbricatePage {
 
     public async readAttributes(): Promise<ImbricatePageAttributes> {
 
-        throw new Error("Method not implemented.");
+        return this._page.attributes;
     }
 
     public async writeAttribute(
-        _key: string,
-        _value: string,
+        key: string,
+        value: string,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        this._page.attributes = {
+            ...this._page.attributes,
+            [key]: value,
+        };
+        await this._page.save();
     }
 
     public async refreshUpdateMetadata(

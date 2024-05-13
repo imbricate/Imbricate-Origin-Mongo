@@ -61,6 +61,13 @@ export const startImbricateOriginPageAttributeTest = (
             }
         });
 
+        it("should be able to start with empty attributes", async (): Promise<void> => {
+
+            const attributes = await page.readAttributes();
+
+            expect(attributes).toStrictEqual({});
+        });
+
         it("should be able to attach attribute", async (): Promise<void> => {
 
             await page.writeAttribute("test-attribute", "test-value");
@@ -69,6 +76,30 @@ export const startImbricateOriginPageAttributeTest = (
 
             expect(attributes).toStrictEqual({
                 "test-attribute": "test-value",
+            });
+        });
+
+        it("should be able to attach multiple attributes", async (): Promise<void> => {
+
+            await page.writeAttribute("test-attribute-2", "test-value-2");
+
+            const attributes = await page.readAttributes();
+
+            expect(attributes).toStrictEqual({
+                "test-attribute": "test-value",
+                "test-attribute-2": "test-value-2",
+            });
+        });
+
+        it("should be able to update attribute", async (): Promise<void> => {
+
+            await page.writeAttribute("test-attribute", "test-value-2");
+
+            const attributes = await page.readAttributes();
+
+            expect(attributes).toStrictEqual({
+                "test-attribute": "test-value-2",
+                "test-attribute-2": "test-value-2",
             });
         });
     });

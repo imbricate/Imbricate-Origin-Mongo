@@ -35,10 +35,12 @@ export const createUnsavedPage = (
         digest: contentDigest,
         contentDigest,
 
+        attributes: {},
         historyRecords: [{
             updatedAt: current,
             digest: contentDigest,
         }],
+
         contentUpdatedAt: current,
     };
     return new PageModel(pageConfig);

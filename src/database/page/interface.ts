@@ -23,6 +23,7 @@ export interface IPageConfig {
     digest: string;
     contentDigest: string;
 
+    attributes: Record<string, string>;
     historyRecords: IPageHistoryRecord[];
 
     contentUpdatedAt: Date;
