@@ -5,8 +5,8 @@
  */
 
 import { IImbricateOrigin, IImbricateOriginCollection, IImbricatePage } from "@imbricate/core";
-import { ImbricateOriginTestingTarget } from "../testing-target";
 import { PageToBeDeleted } from "../definition";
+import { ImbricateOriginTestingTarget } from "../testing-target";
 
 export const startImbricateOriginPageAttributeTest = (
     testingTarget: ImbricateOriginTestingTarget,
@@ -18,16 +18,29 @@ export const startImbricateOriginPageAttributeTest = (
         const collectionToBeDeleted: string[] = [];
 
         let collection: IImbricateOriginCollection = null as unknown as IImbricateOriginCollection;
+        let page: IImbricatePage = null as unknown as IImbricatePage;
 
         beforeAll(async () => {
 
             const origin: IImbricateOrigin = testingTarget.ensureOrigin();
             const testCollection: IImbricateOriginCollection =
-                await origin.createCollection("test-page-create");
+                await origin.createCollection("test-page-attribute");
 
             collectionToBeDeleted.push(testCollection.uniqueIdentifier);
 
             collection = testCollection;
+
+            const testPage: IImbricatePage = await collection.createPage(
+                [],
+                "test-page-update",
+                "test-content",
+            );
+
+            pageToBeDeleted.push({
+                identifier: testPage.identifier,
+                collectionIdentifier: collection.uniqueIdentifier,
+            });
+            page = testPage;
         });
 
         afterAll(async () => {
@@ -40,7 +53,7 @@ export const startImbricateOriginPageAttributeTest = (
                 if (!collection) {
                     throw new Error("Collection not found");
                 }
-                await collection?.deletePage(page.identifier);
+                await collection.deletePage(page.identifier);
             }
 
             for (const collectionUniqueIdentifier of collectionToBeDeleted) {
@@ -48,24 +61,15 @@ export const startImbricateOriginPageAttributeTest = (
             }
         });
 
-        it("should be able to create page", async (): Promise<void> => {
+        it("should be able to attach attribute", async (): Promise<void> => {
 
-            const page: IImbricatePage = await collection.createPage(
-                [],
-                "test-page",
-                "test-content",
-            );
+            await page.writeAttribute("test-attribute", "test-value");
 
-            pageToBeDeleted.push({
-                identifier: page.identifier,
-                collectionIdentifier: collection.uniqueIdentifier,
+            const attributes = await page.readAttributes();
+
+            expect(attributes).toStrictEqual({
+                "test-attribute": "test-value",
             });
-
-            expect(page).toBeDefined();
-
-            const pageContent: string = await page.readContent();
-
-            expect(pageContent).toBe("test-content");
         });
     });
 };
