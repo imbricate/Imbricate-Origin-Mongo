@@ -117,7 +117,7 @@ export class MongoImbricatePage implements IImbricatePage {
         digest: string,
     ): Promise<void> {
 
-        this._page.digest = digest;
+        this._page.contentDigest = digest;
 
         await this._page.save();
     }

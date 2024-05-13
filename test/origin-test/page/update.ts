@@ -83,5 +83,28 @@ export const startImbricateOriginPageUpdateTest = (
 
             expect(content).toBe("test-content-2");
         });
+
+        it("should be able to update digest", async (): Promise<void> => {
+
+            expect(page.digest).not.toBe("content-digest");
+
+            await page.refreshDigest("content-digest");
+
+            expect(page.digest).toBe("content-digest");
+        });
+
+        it("should be able to update updated at", async (): Promise<void> => {
+
+            const before = page.updatedAt;
+
+            const afterDate = new Date();
+            afterDate.setFullYear(afterDate.getFullYear() + 1);
+
+            await page.refreshUpdatedAt(afterDate);
+
+            const after = page.updatedAt;
+
+            expect(after.getTime()).toBeGreaterThan(before.getTime());
+        });
     });
 };
