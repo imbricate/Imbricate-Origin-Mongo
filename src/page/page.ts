@@ -99,7 +99,7 @@ export class MongoImbricatePage implements IImbricatePage {
     ): Promise<void> {
 
         this._page.contentUpdatedAt = updatedAt;
-        this._page.digest = digest;
+        this._page.contentDigest = digest;
 
         await this._page.save();
     }

@@ -106,5 +106,35 @@ export const startImbricateOriginPageUpdateTest = (
 
             expect(after.getTime()).toBeGreaterThan(before.getTime());
         });
+
+        it("should be able to update metadata", async (): Promise<void> => {
+
+            const before = page.updatedAt;
+
+            const afterDate = new Date();
+            afterDate.setFullYear(afterDate.getFullYear() + 1);
+
+            await page.refreshUpdateMetadata(afterDate, "updated-content-digest");
+
+            const after = page.updatedAt;
+
+            expect(after.getTime()).toBeGreaterThan(before.getTime());
+            expect(page.digest).toBe("updated-content-digest");
+        });
+
+        it("should be able to add history record", async (): Promise<void> => {
+
+            expect(page.historyRecords).toHaveLength(1);
+
+            await page.addHistoryRecord({
+                digest: "updated-content-digest",
+                updatedAt: new Date(),
+            });
+
+            expect(page.historyRecords).toHaveLength(2);
+
+            expect(page.historyRecords[0].digest).not.toBe("updated-content-digest");
+            expect(page.historyRecords[1].digest).toBe("updated-content-digest");
+        });
     });
 };
