@@ -6,7 +6,10 @@
 
 import { IImbricateScript, ImbricateScriptAttributes, ImbricateScriptCapability, ImbricateScriptHistoryRecord, SandboxExecuteConfig, SandboxExecuteParameter, SandboxFeature, createAllAllowImbricateScriptCapability } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
+import { storeContent } from "../database/content/controller";
+import { IContentModel } from "../database/content/model";
 import { IScriptModel } from "../database/script/model";
+import { digestStringLong } from "../util/digest";
 
 export class MongoImbricateScript implements IImbricateScript {
 
@@ -54,10 +57,18 @@ export class MongoImbricateScript implements IImbricateScript {
     }
 
     public async writeScript(
-        _script: string,
+        script: string,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        const digest: string = digestStringLong(script);
+
+        if (this.digest === digest) {
+            return;
+        }
+        const contentModel: IContentModel = await storeContent(digest, script);
+
+        this._script.updateScript(contentModel.digest);
+        await this._script.save();
     }
 
     public async readAttributes(): Promise<ImbricateScriptAttributes> {
