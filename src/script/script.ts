@@ -4,19 +4,49 @@
  * @description Script
  */
 
-import { IImbricateScript, ImbricateScriptAttributes, ImbricateScriptCapability, ImbricateScriptHistoryRecord, SandboxExecuteConfig, SandboxExecuteParameter, SandboxFeature } from "@imbricate/core";
+import { IImbricateScript, ImbricateScriptAttributes, ImbricateScriptCapability, ImbricateScriptHistoryRecord, SandboxExecuteConfig, SandboxExecuteParameter, SandboxFeature, createAllAllowImbricateScriptCapability } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
+import { IScriptModel } from "../database/script/model";
 
 export class MongoImbricateScript implements IImbricateScript {
 
-    scriptName: string;
-    identifier: string;
-    digest: string;
-    historyRecords: ImbricateScriptHistoryRecord[];
-    description?: string | undefined;
-    createdAt: Date;
-    updatedAt: Date;
-    capabilities: ImbricateScriptCapability;
+    public static withModel(script: IScriptModel): MongoImbricateScript {
+
+        return new MongoImbricateScript(script);
+    }
+
+    private readonly _script: IScriptModel;
+
+    public readonly capabilities: ImbricateScriptCapability =
+        createAllAllowImbricateScriptCapability();
+
+    private constructor(
+        script: IScriptModel,
+    ) {
+        this._script = script;
+    }
+
+    public get scriptName(): string {
+        return this._script.scriptName;
+    }
+    public get identifier(): string {
+        return this._script.identifier;
+    }
+    public get digest(): string {
+        return this._script.scriptDigest;
+    }
+    public get historyRecords(): ImbricateScriptHistoryRecord[] {
+        return this._script.historyRecords;
+    }
+    public get description(): string | undefined {
+        return this._script.description;
+    }
+    public get createdAt(): Date {
+        return this._script.createdAt;
+    }
+    public get updatedAt(): Date {
+        return this._script.scriptUpdatedAt;
+    }
 
     public async readScript(): Promise<string> {
 
