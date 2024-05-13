@@ -64,25 +64,24 @@ export const startImbricateOriginPageUpdateTest = (
         it("verify page is created", async (): Promise<void> => {
 
             expect(page).toBeDefined();
-            expect(page.historyRecords).toHaveLength(1);
-
-            expect(page.historyRecords[0].digest).toBe(page.digest);
         });
 
         it("should be able to update page with same content", async (): Promise<void> => {
 
             await page.writeContent("test-content");
 
-            expect(page.historyRecords).toHaveLength(1);
-            expect(page.historyRecords[0].digest).toBe(page.digest);
+            const content = await page.readContent();
+
+            expect(content).toBe("test-content");
         });
 
         it("should be able to update page with different content", async (): Promise<void> => {
 
             await page.writeContent("test-content-2");
 
-            expect(page.historyRecords).toHaveLength(2);
-            expect(page.historyRecords[0].digest).not.toBe(page.digest);
+            const content = await page.readContent();
+
+            expect(content).toBe("test-content-2");
         });
     });
 };

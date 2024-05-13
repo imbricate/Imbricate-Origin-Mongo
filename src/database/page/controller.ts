@@ -20,6 +20,8 @@ export const createUnsavedPage = (
     const identifier: string = UUIDVersion1.generateString();
     const contentDigest: string = digestStringLong(initialContent);
 
+    const current: Date = new Date();
+
     const pageConfig: IPageConfig = {
 
         collectionUniqueIdentifier,
@@ -31,11 +33,13 @@ export const createUnsavedPage = (
         identifier,
 
         digest: contentDigest,
+        contentDigest,
 
         historyRecords: [{
-            updatedAt: new Date(),
+            updatedAt: current,
             digest: contentDigest,
         }],
+        contentUpdatedAt: current,
     };
     return new PageModel(pageConfig);
 };

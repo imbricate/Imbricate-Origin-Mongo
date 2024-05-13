@@ -41,7 +41,7 @@ export class MongoImbricatePage implements IImbricatePage {
         return this._page.description;
     }
     public get digest(): string {
-        return this._page.digest;
+        return this._page.contentDigest;
     }
     public get historyRecords(): ImbricatePageHistoryRecord[] {
         return this._page.historyRecords;
@@ -50,7 +50,7 @@ export class MongoImbricatePage implements IImbricatePage {
         return this._page.createdAt;
     }
     public get updatedAt(): Date {
-        return this._page.updatedAt;
+        return this._page.contentUpdatedAt;
     }
 
     public async readContent(): Promise<string> {
