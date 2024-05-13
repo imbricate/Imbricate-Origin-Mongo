@@ -53,6 +53,10 @@ const PageSchema: Schema<IPageModel> = new Schema(
             type: String,
             required: true,
         },
+        contentDigest: {
+            type: String,
+            required: true,
+        },
         historyRecords: {
             type: [PageHistoryRecordSchema],
             required: true,
@@ -66,11 +70,7 @@ const PageSchema: Schema<IPageModel> = new Schema(
         methods: {
             async updateContent(this: IPageModel, contentDigest: string): Promise<IPageModel> {
 
-                this.digest = contentDigest;
-                this.historyRecords = this.historyRecords.concat({
-                    updatedAt: new Date(),
-                    digest: contentDigest,
-                });
+                this.contentDigest = contentDigest;
                 return this;
             },
         },

@@ -21,6 +21,7 @@ export interface IPageConfig {
     identifier: string;
 
     digest: string;
+    contentDigest: string;
 
     historyRecords: IPageHistoryRecord[];
 }
