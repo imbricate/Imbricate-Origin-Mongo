@@ -24,6 +24,8 @@ export interface IPageConfig {
     contentDigest: string;
 
     historyRecords: IPageHistoryRecord[];
+
+    contentUpdatedAt: Date;
 }
 
 export interface IPage extends IPageConfig {

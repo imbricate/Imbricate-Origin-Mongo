@@ -61,6 +61,10 @@ const PageSchema: Schema<IPageModel> = new Schema(
             type: [PageHistoryRecordSchema],
             required: true,
         },
+        contentUpdatedAt: {
+            type: Date,
+            required: true,
+        },
     },
     {
         timestamps: {
