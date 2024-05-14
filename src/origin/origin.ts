@@ -4,7 +4,7 @@
  * @description Origin
  */
 
-import { IImbricateBinaryStorage, IImbricateFunctionManager, IImbricateOrigin, IImbricateOriginCollection, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNoteImplemented, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateSearchScriptConfig, SandboxExecuteConfig, createAllAllowImbricateOriginCapability } from "@imbricate/core";
+import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNotImplemented, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateSearchScriptConfig, SandboxExecuteConfig } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
 import { Connection } from "mongoose";
 import { MongoImbricateCollection } from "../collection/collection";
@@ -12,7 +12,7 @@ import { CollectionModel, ICollectionModel } from "../database/collection/model"
 import { connectDatabase } from "../database/connect";
 import { mongoCreateCollection } from "./create-collection";
 
-export class MongoImbricateOrigin implements IImbricateOrigin {
+export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbricateOrigin {
 
     public static async create(
         database: string,
@@ -25,7 +25,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
 
     public readonly originType: string = "mongo";
     public readonly capabilities: ImbricateOriginCapability =
-        createAllAllowImbricateOriginCapability();
+        ImbricateOriginBase.allAllowCapability();
 
     public readonly metadata: ImbricateOriginMetadata = {
         digestAlgorithm: IMBRICATE_DIGEST_ALGORITHM.SHA1,
@@ -38,6 +38,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         connection: Connection,
     ) {
 
+        super();
         this._connection = connection;
     }
 
@@ -76,7 +77,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
 
     public async getCollection(
         collectionUniqueIdentifier: string,
-    ): Promise<IImbricateOriginCollection | null> {
+    ): Promise<IImbricateCollection | null> {
 
         const collectionModel: ICollectionModel | null = await CollectionModel.findOne({
             uniqueIdentifier: collectionUniqueIdentifier,
@@ -90,9 +91,9 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
 
     public async findCollection(
         _collectionName: string,
-    ): Promise<IImbricateOriginCollection | null> {
+    ): Promise<IImbricateCollection | null> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "findCollection",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_COLLECTION,
         );
@@ -103,13 +104,13 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _newCollectionName: string,
     ): Promise<void> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "renameCollection",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.RENAME_COLLECTION,
         );
     }
 
-    public async listCollections(): Promise<IImbricateOriginCollection[]> {
+    public async listCollections(): Promise<IImbricateCollection[]> {
 
         const collectionModels = await CollectionModel.find({});
         return collectionModels.map((model: ICollectionModel) => {
@@ -131,7 +132,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _description?: string,
     ): Promise<IImbricateScript> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "createScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.CREATE_SCRIPT,
         );
@@ -141,7 +142,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _scriptName: string,
     ): Promise<boolean> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "hasScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
         );
@@ -151,7 +152,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _scriptName: string,
     ): Promise<IImbricateScript | null> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "getScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
         );
@@ -161,7 +162,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _scriptIdentifier: string,
     ): Promise<string> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "openScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
         );
@@ -172,7 +173,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _script: string,
     ): Promise<IImbricateScript> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "putScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.PUT_SCRIPT,
         );
@@ -183,7 +184,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _newScriptName: string,
     ): Promise<void> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "renameScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.RENAME_SCRIPT,
         );
@@ -191,7 +192,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
 
     public async listScripts(): Promise<ImbricateScriptMetadata[]> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "listScripts",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.LIST_SCRIPTS,
         );
@@ -201,7 +202,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _scriptName: string,
     ): Promise<void> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "removeScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.DELETE_SCRIPT,
         );
@@ -212,7 +213,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _config: ImbricateSearchScriptConfig,
     ): Promise<ImbricateScriptSearchResult[]> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "searchScripts",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
         );
@@ -223,7 +224,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _config: ImbricateScriptQueryConfig,
     ): Promise<IImbricateScript[]> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "queryScripts",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
         );
@@ -234,7 +235,7 @@ export class MongoImbricateOrigin implements IImbricateOrigin {
         _config: SandboxExecuteConfig,
     ): Promise<MarkedResult | null> {
 
-        throw ImbricateNoteImplemented.create(
+        throw ImbricateNotImplemented.create(
             "executeScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
         );

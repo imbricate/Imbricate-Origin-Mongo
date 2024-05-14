@@ -4,13 +4,13 @@
  * @description Collection
  */
 
-import { IImbricateOriginCollection, IImbricatePage, ImbricateCollectionCapability, ImbricatePageMetadata, ImbricatePageQuery, ImbricatePageQueryConfig, ImbricatePageSearchResult, ImbricatePageSnapshot, ImbricateSearchPageConfig, createAllAllowImbricateCollectionCapability } from "@imbricate/core";
+import { IImbricateCollection, IImbricatePage, ImbricateCollectionBase, ImbricateCollectionCapability, ImbricatePageMetadata, ImbricatePageQuery, ImbricatePageQueryConfig, ImbricatePageSearchResult, ImbricatePageSnapshot, ImbricateSearchPageConfig } from "@imbricate/core";
 import { ICollectionModel } from "../database/collection/model";
 import { PageModel } from "../database/page/model";
 import { MongoImbricatePage } from "../page/page";
 import { mongoCreatePage } from "./create-page";
 
-export class MongoImbricateCollection implements IImbricateOriginCollection {
+export class MongoImbricateCollection extends ImbricateCollectionBase implements IImbricateCollection {
 
     public static withModel(collection: ICollectionModel): MongoImbricateCollection {
 
@@ -19,10 +19,13 @@ export class MongoImbricateCollection implements IImbricateOriginCollection {
 
     private readonly _collection: ICollectionModel;
 
-    public readonly capabilities: ImbricateCollectionCapability = createAllAllowImbricateCollectionCapability();
+    public readonly capabilities: ImbricateCollectionCapability = ImbricateCollectionBase.allAllowCapability();
 
-    private constructor(collection: ICollectionModel) {
+    private constructor(
+        collection: ICollectionModel,
+    ) {
 
+        super();
         this._collection = collection;
     }
 

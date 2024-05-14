@@ -4,7 +4,7 @@
  * @description Create
  */
 
-import { IImbricateOrigin, IImbricateOriginCollection, IImbricatePage } from "@imbricate/core";
+import { IImbricateOrigin, IImbricateCollection, IImbricatePage } from "@imbricate/core";
 import { ImbricateOriginTestingTarget } from "../testing-target";
 import { PageToBeDeleted } from "../definition";
 
@@ -17,12 +17,12 @@ export const startImbricateOriginPageCreateTest = (
         const pageToBeDeleted: PageToBeDeleted[] = [];
         const collectionToBeDeleted: string[] = [];
 
-        let collection: IImbricateOriginCollection = null as unknown as IImbricateOriginCollection;
+        let collection: IImbricateCollection = null as unknown as IImbricateCollection;
 
         beforeAll(async () => {
 
             const origin: IImbricateOrigin = testingTarget.ensureOrigin();
-            const testCollection: IImbricateOriginCollection =
+            const testCollection: IImbricateCollection =
                 await origin.createCollection("test-page-create");
 
             collectionToBeDeleted.push(testCollection.uniqueIdentifier);

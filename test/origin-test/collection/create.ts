@@ -4,7 +4,7 @@
  * @description Create
  */
 
-import { IImbricateOrigin, IImbricateOriginCollection } from "@imbricate/core";
+import { IImbricateOrigin, IImbricateCollection } from "@imbricate/core";
 import { ImbricateOriginTestingTarget } from "../testing-target";
 
 export const startImbricateOriginCollectionCreateTest = (
@@ -35,7 +35,7 @@ export const startImbricateOriginCollectionCreateTest = (
         it("should be able to create collection", async (): Promise<void> => {
 
             const origin: IImbricateOrigin = testingTarget.ensureOrigin();
-            const collection: IImbricateOriginCollection = await origin.createCollection("test-collection");
+            const collection: IImbricateCollection = await origin.createCollection("test-collection");
 
             expect(collection).toBeDefined();
 
@@ -54,10 +54,10 @@ export const startImbricateOriginCollectionCreateTest = (
         it("should included in list", async (): Promise<void> => {
 
             const origin: IImbricateOrigin = testingTarget.ensureOrigin();
-            const collections: IImbricateOriginCollection[] = await origin.listCollections();
+            const collections: IImbricateCollection[] = await origin.listCollections();
 
-            const collection: IImbricateOriginCollection | undefined = collections.find(
-                (each: IImbricateOriginCollection) => {
+            const collection: IImbricateCollection | undefined = collections.find(
+                (each: IImbricateCollection) => {
                     return each.collectionName === "test-collection";
                 },
             );

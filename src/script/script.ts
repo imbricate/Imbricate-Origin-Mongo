@@ -4,14 +4,14 @@
  * @description Script
  */
 
-import { IImbricateScript, ImbricateScriptAttributes, ImbricateScriptCapability, ImbricateScriptHistoryRecord, SandboxExecuteConfig, SandboxExecuteParameter, SandboxFeature, createAllAllowImbricateScriptCapability } from "@imbricate/core";
+import { IImbricateScript, ImbricateScriptAttributes, ImbricateScriptBase, ImbricateScriptCapability, ImbricateScriptHistoryRecord, SandboxExecuteConfig, SandboxExecuteParameter, SandboxFeature } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
 import { storeContent } from "../database/content/controller";
 import { IContentModel } from "../database/content/model";
 import { IScriptModel } from "../database/script/model";
 import { digestStringLong } from "../util/digest";
 
-export class MongoImbricateScript implements IImbricateScript {
+export class MongoImbricateScript extends ImbricateScriptBase implements IImbricateScript {
 
     public static withModel(script: IScriptModel): MongoImbricateScript {
 
@@ -21,11 +21,13 @@ export class MongoImbricateScript implements IImbricateScript {
     private readonly _script: IScriptModel;
 
     public readonly capabilities: ImbricateScriptCapability =
-        createAllAllowImbricateScriptCapability();
+        ImbricateScriptBase.allAllowCapability();
 
     private constructor(
         script: IScriptModel,
     ) {
+
+        super();
         this._script = script;
     }
 

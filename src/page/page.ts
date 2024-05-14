@@ -4,13 +4,13 @@
  * @description Page
  */
 
-import { IImbricatePage, ImbricatePageAttributes, ImbricatePageCapability, ImbricatePageHistoryRecord, createAllAllowImbricatePageCapability } from "@imbricate/core";
+import { IImbricatePage, ImbricatePageAttributes, ImbricatePageBase, ImbricatePageCapability, ImbricatePageHistoryRecord } from "@imbricate/core";
 import { storeContent } from "../database/content/controller";
 import { ContentModel, IContentModel } from "../database/content/model";
 import { IPageModel } from "../database/page/model";
 import { digestStringLong } from "../util/digest";
 
-export class MongoImbricatePage implements IImbricatePage {
+export class MongoImbricatePage extends ImbricatePageBase implements IImbricatePage {
 
     public static withModel(page: IPageModel): MongoImbricatePage {
 
@@ -20,11 +20,13 @@ export class MongoImbricatePage implements IImbricatePage {
     private readonly _page: IPageModel;
 
     public readonly capabilities: ImbricatePageCapability =
-        createAllAllowImbricatePageCapability();
+        ImbricatePageBase.allAllowCapability();
 
     private constructor(
         page: IPageModel,
     ) {
+
+        super();
         this._page = page;
     }
 
