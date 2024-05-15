@@ -5,8 +5,9 @@
  */
 
 import { IImbricateCollection, IImbricatePage, ImbricateCollectionBase, ImbricateCollectionCapability, ImbricatePageMetadata, ImbricatePageQuery, ImbricatePageQueryConfig, ImbricatePageSearchResult, ImbricatePageSnapshot, ImbricateSearchPageConfig } from "@imbricate/core";
+import { FilterQuery } from "mongoose";
 import { ICollectionModel } from "../database/collection/model";
-import { PageModel } from "../database/page/model";
+import { IPageModel, PageModel } from "../database/page/model";
 import { MongoImbricatePage } from "../page/page";
 import { mongoCreatePage } from "./create-page";
 
@@ -109,11 +110,32 @@ export class MongoImbricateCollection extends ImbricateCollectionBase implements
     }
 
     public async listPages(
-        _directories: string[],
-        _recursive: boolean,
+        directories: string[],
+        recursive: boolean,
     ): Promise<ImbricatePageSnapshot[]> {
 
-        throw new Error("Method not implemented.");
+        const findTarget: FilterQuery<IPageModel> = {
+            collectionUniqueIdentifier: this._collection.uniqueIdentifier,
+        };
+
+        if (recursive) {
+
+            for (let i = 0; i < directories.length; i++) {
+                findTarget[`directories.${i}`] = directories[i];
+            }
+        } else {
+            findTarget.directories = directories;
+        }
+
+        const pages = await PageModel.find(findTarget);
+
+        return pages.map((page: any) => {
+            return {
+                identifier: page.identifier,
+                title: page.title,
+                directories: page.directories,
+            };
+        });
     }
 
     public async listDirectories(

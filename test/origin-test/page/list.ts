@@ -50,6 +50,17 @@ export const startImbricateOriginPageListTest = (
                 identifier: directoriesLevelPage.identifier,
                 collectionIdentifier: collection.uniqueIdentifier,
             });
+
+            const thirdLevelPage: IImbricatePage = await collection.createPage(
+                ["directories", "third-level"],
+                "third-level-page",
+                "test-content",
+            );
+
+            pageToBeDeleted.push({
+                identifier: thirdLevelPage.identifier,
+                collectionIdentifier: collection.uniqueIdentifier,
+            });
         });
 
         afterAll(async () => {
@@ -75,6 +86,41 @@ export const startImbricateOriginPageListTest = (
             const pages: ImbricatePageSnapshot[] = await collection.listPages([], false);
 
             expect(pages).toHaveLength(1);
+        });
+
+        it("should be able to find second level page", async (): Promise<void> => {
+
+            const pages: ImbricatePageSnapshot[] = await collection.listPages([
+                "directories",
+            ], false);
+
+            expect(pages).toHaveLength(1);
+        });
+
+        it("should be able to find thrid level page", async (): Promise<void> => {
+
+            const pages: ImbricatePageSnapshot[] = await collection.listPages([
+                "directories",
+                "third-level",
+            ], false);
+
+            expect(pages).toHaveLength(1);
+        });
+
+        it("should be able to find root level page recursively", async (): Promise<void> => {
+
+            const pages: ImbricatePageSnapshot[] = await collection.listPages([], true);
+
+            expect(pages).toHaveLength(3);
+        });
+
+        it("should be able to find second level page recursively", async (): Promise<void> => {
+
+            const pages: ImbricatePageSnapshot[] = await collection.listPages([
+                "directories",
+            ], true);
+
+            expect(pages).toHaveLength(2);
         });
     });
 };
