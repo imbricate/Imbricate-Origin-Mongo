@@ -10,18 +10,21 @@ import { Connection } from "mongoose";
 import { MongoImbricateCollection } from "../collection/collection";
 import { CollectionModel, ICollectionModel } from "../database/collection/model";
 import { connectDatabase } from "../database/connect";
+import { digestString } from "../util/digest";
 import { mongoCreateCollection } from "./create-collection";
 
 export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbricateOrigin {
 
     public static async create(
-        database: string,
+        databaseUrl: string,
     ): Promise<MongoImbricateOrigin> {
 
-        const connection: Connection = await connectDatabase(database);
+        const connection: Connection = await connectDatabase(databaseUrl);
 
-        return new MongoImbricateOrigin(connection);
+        return new MongoImbricateOrigin(databaseUrl, connection);
     }
+
+    private readonly _databaseUrl: string;
 
     public readonly originType: string = "mongo";
     public readonly capabilities: ImbricateOriginCapability =
@@ -35,21 +38,25 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     private readonly _connection: Connection;
 
     private constructor(
+        databaseUrl: string,
         connection: Connection,
     ) {
 
         super();
+
+        this._databaseUrl = databaseUrl;
         this._connection = connection;
     }
 
     public get uniqueIdentifier(): string {
-        return "Mongo";
+        return digestString(this._databaseUrl);
     }
 
     public getFunctionManger(): IImbricateFunctionManager {
 
         throw new Error("Method not implemented.");
     }
+
     public getBinaryStorage(): IImbricateBinaryStorage {
 
         throw new Error("Method not implemented.");
