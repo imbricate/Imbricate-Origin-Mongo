@@ -5,6 +5,7 @@
  */
 
 import { startImbricateOriginCollectionCreateTest } from "./collection/create";
+import { startImbricateOriginCollectionFindTest } from "./collection/find";
 import { startImbricateOriginPageAttributeTest } from "./page/attribute";
 import { startImbricateOriginPageCreateTest } from "./page/create";
 import { startImbricateOriginPageListTest } from "./page/list";
@@ -26,6 +27,7 @@ export const startImbricateOriginTest = (
         });
 
         startImbricateOriginCollectionCreateTest(testingTarget);
+        startImbricateOriginCollectionFindTest(testingTarget);
 
         startImbricateOriginPageAttributeTest(testingTarget);
         startImbricateOriginPageCreateTest(testingTarget);
