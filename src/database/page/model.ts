@@ -49,7 +49,7 @@ const PageSchema: Schema<IPageModel> = new Schema(
             required: true,
             index: true,
         },
-        digest: {
+        imbricateDigest: {
             type: String,
             required: true,
         },
@@ -65,7 +65,7 @@ const PageSchema: Schema<IPageModel> = new Schema(
             type: [PageHistoryRecordSchema],
             required: true,
         },
-        contentUpdatedAt: {
+        imbricateUpdatedAt: {
             type: Date,
             required: true,
         },

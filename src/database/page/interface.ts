@@ -20,13 +20,13 @@ export interface IPageConfig {
     directories: string[];
     identifier: string;
 
-    digest: string;
+    imbricateDigest: string;
     contentDigest: string;
 
     attributes: Record<string, string>;
     historyRecords: IPageHistoryRecord[];
 
-    contentUpdatedAt: Date;
+    imbricateUpdatedAt: Date;
 }
 
 export interface IPage extends IPageConfig {

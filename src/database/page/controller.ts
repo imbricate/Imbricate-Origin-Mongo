@@ -32,7 +32,7 @@ export const createUnsavedPage = (
         directories,
         identifier,
 
-        digest: contentDigest,
+        imbricateDigest: contentDigest,
         contentDigest,
 
         attributes: {},
@@ -41,7 +41,7 @@ export const createUnsavedPage = (
             digest: contentDigest,
         }],
 
-        contentUpdatedAt: current,
+        imbricateUpdatedAt: current,
     };
     return new PageModel(pageConfig);
 };

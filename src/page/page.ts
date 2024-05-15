@@ -43,7 +43,7 @@ export class MongoImbricatePage extends ImbricatePageBase implements IImbricateP
         return this._page.description;
     }
     public get digest(): string {
-        return this._page.contentDigest;
+        return this._page.imbricateDigest;
     }
     public get historyRecords(): ImbricatePageHistoryRecord[] {
         return this._page.historyRecords;
@@ -52,13 +52,13 @@ export class MongoImbricatePage extends ImbricatePageBase implements IImbricateP
         return this._page.createdAt;
     }
     public get updatedAt(): Date {
-        return this._page.contentUpdatedAt;
+        return this._page.imbricateUpdatedAt;
     }
 
     public async readContent(): Promise<string> {
 
         const content = await ContentModel.findOne({
-            digest: this.digest,
+            digest: this._page.contentDigest,
         });
 
         if (!content) {
@@ -73,7 +73,7 @@ export class MongoImbricatePage extends ImbricatePageBase implements IImbricateP
 
         const digest: string = digestStringLong(content);
 
-        if (this.digest === digest) {
+        if (this._page.contentDigest === digest) {
             return;
         }
         const contentModel: IContentModel = await storeContent(digest, content);
@@ -104,8 +104,8 @@ export class MongoImbricatePage extends ImbricatePageBase implements IImbricateP
         digest: string,
     ): Promise<void> {
 
-        this._page.contentUpdatedAt = updatedAt;
-        this._page.contentDigest = digest;
+        this._page.imbricateUpdatedAt = updatedAt;
+        this._page.imbricateDigest = digest;
 
         await this._page.save();
     }
@@ -114,7 +114,7 @@ export class MongoImbricatePage extends ImbricatePageBase implements IImbricateP
         updatedAt: Date,
     ): Promise<void> {
 
-        this._page.contentUpdatedAt = updatedAt;
+        this._page.imbricateUpdatedAt = updatedAt;
 
         await this._page.save();
     }
@@ -123,7 +123,7 @@ export class MongoImbricatePage extends ImbricatePageBase implements IImbricateP
         digest: string,
     ): Promise<void> {
 
-        this._page.contentDigest = digest;
+        this._page.imbricateDigest = digest;
 
         await this._page.save();
     }
