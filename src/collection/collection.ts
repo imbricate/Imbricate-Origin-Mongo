@@ -81,11 +81,16 @@ export class MongoImbricateCollection extends ImbricateCollectionBase implements
     }
 
     public async hasPage(
-        _directories: string[],
-        _title: string,
+        directories: string[],
+        title: string,
     ): Promise<boolean> {
 
-        throw new Error("Method not implemented.");
+        const ifExist = await PageModel.exists({
+            collectionUniqueIdentifier: this._collection.uniqueIdentifier,
+            directories,
+            title,
+        });
+        return Boolean(ifExist);
     }
 
     public async getPage(

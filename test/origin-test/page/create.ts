@@ -67,5 +67,22 @@ export const startImbricateOriginPageCreateTest = (
 
             expect(pageContent).toBe("test-content");
         });
+
+        it("should be able to confirm with has page", async (): Promise<void> => {
+
+            const hasPage: boolean = await collection.hasPage(
+                [],
+                "test-page",
+            );
+
+            expect(hasPage).toBeTruthy();
+
+            const notHasPage: boolean = await collection.hasPage(
+                [],
+                "not-exist",
+            );
+
+            expect(notHasPage).toBeFalsy();
+        });
     });
 };
