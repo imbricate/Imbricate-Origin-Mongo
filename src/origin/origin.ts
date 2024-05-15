@@ -90,13 +90,17 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     }
 
     public async findCollection(
-        _collectionName: string,
+        collectionName: string,
     ): Promise<IImbricateCollection | null> {
 
-        throw ImbricateNotImplemented.create(
-            "findCollection",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_COLLECTION,
-        );
+        const collectionModel: ICollectionModel | null = await CollectionModel.findOne({
+            collectionName,
+        });
+
+        if (!collectionModel) {
+            return null;
+        }
+        return MongoImbricateCollection.withModel(collectionModel);
     }
 
     public async renameCollection(

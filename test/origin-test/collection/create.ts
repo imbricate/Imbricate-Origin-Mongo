@@ -37,10 +37,9 @@ export const startImbricateOriginCollectionCreateTest = (
             const origin: IImbricateOrigin = testingTarget.ensureOrigin();
             const collection: IImbricateCollection = await origin.createCollection("test-collection");
 
-            expect(collection).toBeDefined();
-
             toBeDeleted.push(collection.uniqueIdentifier);
 
+            expect(collection).toBeDefined();
         });
 
         it("should contain collection after creation", async (): Promise<void> => {
