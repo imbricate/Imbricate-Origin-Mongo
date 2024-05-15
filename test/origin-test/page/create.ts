@@ -40,7 +40,8 @@ export const startImbricateOriginPageCreateTest = (
                 if (!collection) {
                     throw new Error("Collection not found");
                 }
-                await collection?.deletePage(page.identifier);
+
+                await collection.deletePage(page.identifier);
             }
 
             for (const collectionUniqueIdentifier of collectionToBeDeleted) {
