@@ -4,13 +4,13 @@
  * @description Origin
  */
 
-import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNotImplemented, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateSearchScriptConfig, SandboxExecuteConfig } from "@imbricate/core";
+import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNotImplemented, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateScriptSnapshot, ImbricateSearchScriptConfig, SandboxExecuteConfig } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
 import { Connection } from "mongoose";
 import { MongoImbricateCollection } from "../collection/collection";
 import { CollectionModel, ICollectionModel } from "../database/collection/model";
 import { connectDatabase } from "../database/connect";
-import { ScriptModel } from "../database/script/model";
+import { IScriptModel, ScriptModel } from "../database/script/model";
 import { MongoImbricateScript } from "../script/script";
 import { digestString } from "../util/digest";
 import { mongoCreateCollection } from "./create-collection";
@@ -202,12 +202,16 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         );
     }
 
-    public async listScripts(): Promise<ImbricateScriptMetadata[]> {
+    public async listScripts(): Promise<ImbricateScriptSnapshot[]> {
 
-        throw ImbricateNotImplemented.create(
-            "listScripts",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.LIST_SCRIPTS,
-        );
+        const scripts = await ScriptModel.find({});
+
+        return scripts.map((script: IScriptModel): ImbricateScriptSnapshot => {
+            return {
+                identifier: script.identifier,
+                scriptName: script.scriptName,
+            };
+        });
     }
 
     public async deleteScript(

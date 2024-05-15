@@ -12,6 +12,7 @@ import { startImbricateOriginPageCreateTest } from "./page/create";
 import { startImbricateOriginPageListTest } from "./page/list";
 import { startImbricateOriginPageUpdateTest } from "./page/update";
 import { startImbricateOriginScriptCreateTest } from "./script/create";
+import { startImbricateOriginScriptListTest } from "./script/list";
 import { ImbricateOriginTestingTarget } from "./testing-target";
 
 export const startImbricateOriginTest = (
@@ -38,5 +39,6 @@ export const startImbricateOriginTest = (
         startImbricateOriginPageUpdateTest(testingTarget);
 
         startImbricateOriginScriptCreateTest(testingTarget);
+        startImbricateOriginScriptListTest(testingTarget);
     });
 };
