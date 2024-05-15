@@ -13,3 +13,8 @@ export type PageToBeDeleted = {
     readonly identifier: string;
     readonly collectionIdentifier: string;
 };
+
+export type ScriptToBeDeleted = {
+
+    readonly identifier: string;
+};
