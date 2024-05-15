@@ -20,6 +20,7 @@ export interface IScriptConfig {
     imbricateDigest: string;
     scriptDigest: string;
 
+    attributes: Record<string, string>;
     historyRecords: IScriptHistoryRecord[];
 
     imbricateUpdatedAt: Date;

@@ -47,6 +47,10 @@ const ScriptSchema: Schema<IScriptModel> = new Schema(
             type: String,
             required: true,
         },
+        attributes: {
+            type: Schema.Types.Mixed,
+            required: true,
+        },
         historyRecords: {
             type: [ScriptHistoryRecordSchema],
             required: true,

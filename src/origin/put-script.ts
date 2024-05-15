@@ -28,6 +28,7 @@ export const mongoPutScript = async (
         imbricateDigest: scriptMetadata.digest,
         scriptDigest,
 
+        attributes: scriptMetadata.attributes,
         historyRecords: scriptMetadata.historyRecords,
 
         imbricateUpdatedAt: scriptMetadata.updatedAt,

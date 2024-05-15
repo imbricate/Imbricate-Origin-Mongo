@@ -32,7 +32,7 @@ export const mongoPutPage = async (
         imbricateDigest: pageMetadata.digest,
         contentDigest: pageDigest,
 
-        attributes: {},
+        attributes: pageMetadata.attributes,
         historyRecords: pageMetadata.historyRecords,
 
         imbricateUpdatedAt: pageMetadata.updatedAt,

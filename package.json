@@ -30,7 +30,7 @@
   "homepage": "https://imbricate.io",
   "dependencies": {
     "@sudoo/uuid": "^1.1.0",
-    "mongoose": "^8.3.4"
+    "mongoose": "^8.3.5"
   },
   "peerDependencies": {
     "@imbricate/core": "*"
@@ -39,7 +39,7 @@
     "@babel/core": "^7.24.5",
     "@babel/preset-env": "^7.24.5",
     "@babel/preset-typescript": "^7.24.1",
-    "@imbricate/core": "^1.24.4",
+    "@imbricate/core": "^1.25.1",
     "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^7.9.0",
     "@typescript-eslint/parser": "^7.9.0",

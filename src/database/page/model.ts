@@ -58,7 +58,7 @@ const PageSchema: Schema<IPageModel> = new Schema(
             required: true,
         },
         attributes: {
-            type: Object,
+            type: Schema.Types.Mixed,
             required: true,
         },
         historyRecords: {

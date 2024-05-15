@@ -30,6 +30,7 @@ export const createUnsavedScript = (
         imbricateDigest: scriptDigest,
         scriptDigest,
 
+        attributes: {},
         historyRecords: [{
             updatedAt: current,
             digest: scriptDigest,
