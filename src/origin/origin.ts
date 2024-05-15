@@ -10,6 +10,7 @@ import { Connection } from "mongoose";
 import { MongoImbricateCollection } from "../collection/collection";
 import { CollectionModel, ICollectionModel } from "../database/collection/model";
 import { connectDatabase } from "../database/connect";
+import { ScriptModel } from "../database/script/model";
 import { digestString } from "../util/digest";
 import { mongoCreateCollection } from "./create-collection";
 import { mongoCreateScript } from "./create-script";
@@ -143,24 +144,25 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
 
     public async createScript(
         scriptName: string,
+        initialScript: string,
         description?: string,
     ): Promise<IImbricateScript> {
 
         return mongoCreateScript(
             scriptName,
-            "",
+            initialScript,
             description,
         );
     }
 
     public async hasScript(
-        _scriptName: string,
+        scriptName: string,
     ): Promise<boolean> {
 
-        throw ImbricateNotImplemented.create(
-            "hasScript",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
-        );
+        const ifExist = await ScriptModel.exists({
+            scriptName,
+        });
+        return Boolean(ifExist);
     }
 
     public async getScript(
@@ -214,13 +216,12 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     }
 
     public async deleteScript(
-        _scriptName: string,
+        identifier: string,
     ): Promise<void> {
 
-        throw ImbricateNotImplemented.create(
-            "removeScript",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.DELETE_SCRIPT,
-        );
+        await ScriptModel.deleteOne({
+            identifier,
+        });
     }
 
     public async searchScripts(

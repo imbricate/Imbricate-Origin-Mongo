@@ -94,32 +94,44 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
     }
 
     public async refreshUpdateMetadata(
-        _updatedAt: Date,
-        _digest: string,
+        updatedAt: Date,
+        digest: string,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        this._script.scriptUpdatedAt = updatedAt;
+        this._script.scriptDigest = digest;
+
+        await this._script.save();
     }
 
     public async refreshUpdatedAt(
-        _updatedAt: Date,
+        updatedAt: Date,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        this._script.scriptUpdatedAt = updatedAt;
+
+        await this._script.save();
     }
 
     public async refreshDigest(
-        _digest: string,
+        digest: string,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        this._script.scriptDigest = digest;
+
+        await this._script.save();
     }
 
     public async addHistoryRecord(
-        _record: ImbricateScriptHistoryRecord,
+        record: ImbricateScriptHistoryRecord,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        this._script.historyRecords = [
+            ...this._script.historyRecords,
+            record,
+        ];
+
+        await this._script.save();
     }
 
     public async execute(
