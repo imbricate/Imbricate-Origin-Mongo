@@ -139,10 +139,35 @@ export class MongoImbricateCollection extends ImbricateCollectionBase implements
     }
 
     public async listDirectories(
-        _directories: string[],
+        directories: string[],
     ): Promise<string[]> {
 
-        throw new Error("Method not implemented.");
+        const findTarget: FilterQuery<IPageModel> = {
+            collectionUniqueIdentifier: this._collection.uniqueIdentifier,
+        };
+
+        for (let i = 0; i < directories.length; i++) {
+            findTarget[`directories.${i}`] = directories[i];
+        }
+
+        findTarget[`directories.${directories.length}`] = {
+            $exists: true,
+        };
+
+        findTarget[`directories.${directories.length + 1}`] = {
+            $exists: false,
+        };
+
+        const pages = await PageModel.find(findTarget);
+
+        const directoriesSet: Set<string> = new Set();
+        for (const page of pages) {
+            if (page.directories.length > directories.length) {
+                directoriesSet.add(page.directories[directories.length]);
+            }
+        }
+
+        return Array.from(directoriesSet);
     }
 
     public async searchPages(

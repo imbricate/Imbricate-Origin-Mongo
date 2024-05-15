@@ -51,6 +51,17 @@ export const startImbricateOriginPageListTest = (
                 collectionIdentifier: collection.uniqueIdentifier,
             });
 
+            const directoriesLevelPageTwo: IImbricatePage = await collection.createPage(
+                ["directories"],
+                "directories-level-page-two",
+                "test-content",
+            );
+
+            pageToBeDeleted.push({
+                identifier: directoriesLevelPageTwo.identifier,
+                collectionIdentifier: collection.uniqueIdentifier,
+            });
+
             const thirdLevelPage: IImbricatePage = await collection.createPage(
                 ["directories", "third-level"],
                 "third-level-page",
@@ -94,10 +105,10 @@ export const startImbricateOriginPageListTest = (
                 "directories",
             ], false);
 
-            expect(pages).toHaveLength(1);
+            expect(pages).toHaveLength(2);
         });
 
-        it("should be able to find thrid level page", async (): Promise<void> => {
+        it("should be able to find third level page", async (): Promise<void> => {
 
             const pages: ImbricatePageSnapshot[] = await collection.listPages([
                 "directories",
@@ -111,7 +122,7 @@ export const startImbricateOriginPageListTest = (
 
             const pages: ImbricatePageSnapshot[] = await collection.listPages([], true);
 
-            expect(pages).toHaveLength(3);
+            expect(pages).toHaveLength(4);
         });
 
         it("should be able to find second level page recursively", async (): Promise<void> => {
@@ -120,7 +131,33 @@ export const startImbricateOriginPageListTest = (
                 "directories",
             ], true);
 
-            expect(pages).toHaveLength(2);
+            expect(pages).toHaveLength(3);
+        });
+
+        it("should be able to find root level directories", async (): Promise<void> => {
+
+            const directories: string[] = await collection.listDirectories([]);
+
+            expect(directories).toHaveLength(1);
+            expect(directories).toStrictEqual(["directories"]);
+        });
+
+        it("should be able to find second level directories", async (): Promise<void> => {
+
+            const directories: string[] = await collection.listDirectories(["directories"]);
+
+            expect(directories).toHaveLength(1);
+            expect(directories).toStrictEqual(["third-level"]);
+        });
+
+        it("should be able to find third level directories", async (): Promise<void> => {
+
+            const directories: string[] = await collection.listDirectories([
+                "directories",
+                "third-level",
+            ]);
+
+            expect(directories).toHaveLength(0);
         });
     });
 };
