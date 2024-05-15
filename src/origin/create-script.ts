@@ -22,7 +22,7 @@ export const mongoCreateScript = async (
 
     await newScript.save();
 
-    await storeContent(newScript.digest, initialScript);
+    await storeContent(newScript.scriptDigest, initialScript);
 
     return MongoImbricateScript.withModel(newScript);
 };

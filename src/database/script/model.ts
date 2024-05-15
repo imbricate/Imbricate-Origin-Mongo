@@ -39,7 +39,7 @@ const ScriptSchema: Schema<IScriptModel> = new Schema(
             required: true,
             index: true,
         },
-        digest: {
+        imbricateDigest: {
             type: String,
             required: true,
         },
@@ -51,7 +51,7 @@ const ScriptSchema: Schema<IScriptModel> = new Schema(
             type: [ScriptHistoryRecordSchema],
             required: true,
         },
-        scriptUpdatedAt: {
+        imbricateUpdatedAt: {
             type: Date,
             required: true,
         },

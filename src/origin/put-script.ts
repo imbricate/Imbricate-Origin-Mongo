@@ -25,12 +25,12 @@ export const mongoPutScript = async (
 
         identifier: scriptMetadata.identifier,
 
-        digest: scriptDigest,
+        imbricateDigest: scriptMetadata.digest,
         scriptDigest,
 
         historyRecords: scriptMetadata.historyRecords,
 
-        scriptUpdatedAt: scriptMetadata.updatedAt,
+        imbricateUpdatedAt: scriptMetadata.updatedAt,
     };
 
     const scriptModel = new ScriptModel(scriptConfig);

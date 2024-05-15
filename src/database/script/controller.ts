@@ -27,7 +27,7 @@ export const createUnsavedScript = (
 
         identifier,
 
-        digest: scriptDigest,
+        imbricateDigest: scriptDigest,
         scriptDigest,
 
         historyRecords: [{
@@ -35,7 +35,7 @@ export const createUnsavedScript = (
             digest: scriptDigest,
         }],
 
-        scriptUpdatedAt: current,
+        imbricateUpdatedAt: current,
     };
     return new ScriptModel(scriptConfig);
 };

@@ -38,7 +38,7 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
         return this._script.identifier;
     }
     public get digest(): string {
-        return this._script.scriptDigest;
+        return this._script.imbricateDigest;
     }
     public get historyRecords(): ImbricateScriptHistoryRecord[] {
         return this._script.historyRecords;
@@ -50,13 +50,13 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
         return this._script.createdAt;
     }
     public get updatedAt(): Date {
-        return this._script.scriptUpdatedAt;
+        return this._script.imbricateUpdatedAt;
     }
 
     public async readScript(): Promise<string> {
 
         const content = await ContentModel.findOne({
-            digest: this.digest,
+            digest: this._script.scriptDigest,
         });
 
         if (!content) {
@@ -71,7 +71,7 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
 
         const digest: string = digestStringLong(script);
 
-        if (this.digest === digest) {
+        if (this._script.scriptDigest === digest) {
             return;
         }
         const contentModel: IContentModel = await storeContent(digest, script);
@@ -98,8 +98,8 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
         digest: string,
     ): Promise<void> {
 
-        this._script.scriptUpdatedAt = updatedAt;
-        this._script.scriptDigest = digest;
+        this._script.imbricateUpdatedAt = updatedAt;
+        this._script.imbricateDigest = digest;
 
         await this._script.save();
     }
@@ -108,7 +108,7 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
         updatedAt: Date,
     ): Promise<void> {
 
-        this._script.scriptUpdatedAt = updatedAt;
+        this._script.imbricateUpdatedAt = updatedAt;
 
         await this._script.save();
     }
@@ -117,7 +117,7 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
         digest: string,
     ): Promise<void> {
 
-        this._script.scriptDigest = digest;
+        this._script.imbricateDigest = digest;
 
         await this._script.save();
     }

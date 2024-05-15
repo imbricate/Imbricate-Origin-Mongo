@@ -17,12 +17,12 @@ export interface IScriptConfig {
 
     identifier: string;
 
-    digest: string;
+    imbricateDigest: string;
     scriptDigest: string;
 
     historyRecords: IScriptHistoryRecord[];
 
-    scriptUpdatedAt: Date;
+    imbricateUpdatedAt: Date;
 }
 
 export interface IScript extends IScriptConfig {
