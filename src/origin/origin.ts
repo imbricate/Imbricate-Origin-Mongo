@@ -12,6 +12,7 @@ import { CollectionModel, ICollectionModel } from "../database/collection/model"
 import { connectDatabase } from "../database/connect";
 import { digestString } from "../util/digest";
 import { mongoCreateCollection } from "./create-collection";
+import { mongoCreateScript } from "./create-script";
 
 export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbricateOrigin {
 
@@ -141,13 +142,14 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     }
 
     public async createScript(
-        _scriptName: string,
-        _description?: string,
+        scriptName: string,
+        description?: string,
     ): Promise<IImbricateScript> {
 
-        throw ImbricateNotImplemented.create(
-            "createScript",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.CREATE_SCRIPT,
+        return mongoCreateScript(
+            scriptName,
+            "",
+            description,
         );
     }
 

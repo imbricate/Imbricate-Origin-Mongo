@@ -7,7 +7,7 @@
 import { IImbricateScript, ImbricateScriptAttributes, ImbricateScriptBase, ImbricateScriptCapability, ImbricateScriptHistoryRecord, SandboxExecuteConfig, SandboxExecuteParameter, SandboxFeature } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
 import { storeContent } from "../database/content/controller";
-import { IContentModel } from "../database/content/model";
+import { ContentModel, IContentModel } from "../database/content/model";
 import { IScriptModel } from "../database/script/model";
 import { digestStringLong } from "../util/digest";
 
@@ -55,7 +55,14 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
 
     public async readScript(): Promise<string> {
 
-        throw new Error("Method not implemented.");
+        const content = await ContentModel.findOne({
+            digest: this.digest,
+        });
+
+        if (!content) {
+            throw new Error("Content not found");
+        }
+        return content.content;
     }
 
     public async writeScript(
