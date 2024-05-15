@@ -111,14 +111,16 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     }
 
     public async renameCollection(
-        _collectionUniqueIdentifier: string,
-        _newCollectionName: string,
+        collectionUniqueIdentifier: string,
+        newCollectionName: string,
     ): Promise<void> {
 
-        throw ImbricateNotImplemented.create(
-            "renameCollection",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.RENAME_COLLECTION,
-        );
+        await CollectionModel.updateOne({
+            uniqueIdentifier: collectionUniqueIdentifier,
+        }, {
+            collectionName: newCollectionName,
+        });
+        return;
     }
 
     public async listCollections(): Promise<IImbricateCollection[]> {
