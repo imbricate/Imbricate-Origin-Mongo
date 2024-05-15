@@ -45,6 +45,13 @@ export const startImbricateOriginScriptCreateTest = (
             const scriptContent: string = await script.readScript();
 
             expect(scriptContent).toBe("test-content");
+
+            const getScript: IImbricateScript | null = await origin.getScript(
+                script.identifier,
+            );
+
+            expect(getScript).toBeDefined();
+            expect(getScript!.identifier).toBe(script.identifier);
         });
 
         it("should be able to confirm with has script", async (): Promise<void> => {

@@ -11,6 +11,7 @@ import { MongoImbricateCollection } from "../collection/collection";
 import { CollectionModel, ICollectionModel } from "../database/collection/model";
 import { connectDatabase } from "../database/connect";
 import { ScriptModel } from "../database/script/model";
+import { MongoImbricateScript } from "../script/script";
 import { digestString } from "../util/digest";
 import { mongoCreateCollection } from "./create-collection";
 import { mongoCreateScript } from "./create-script";
@@ -166,23 +167,17 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     }
 
     public async getScript(
-        _scriptName: string,
+        identifier: string,
     ): Promise<IImbricateScript | null> {
 
-        throw ImbricateNotImplemented.create(
-            "getScript",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
-        );
-    }
+        const script = await ScriptModel.findOne({
+            identifier,
+        });
 
-    public async openScript(
-        _scriptIdentifier: string,
-    ): Promise<string> {
-
-        throw ImbricateNotImplemented.create(
-            "openScript",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
-        );
+        if (!script) {
+            return null;
+        }
+        return MongoImbricateScript.withModel(script);
     }
 
     public async putScript(
