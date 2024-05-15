@@ -7,6 +7,7 @@
 import { startImbricateOriginCollectionCreateTest } from "./collection/create";
 import { startImbricateOriginPageAttributeTest } from "./page/attribute";
 import { startImbricateOriginPageCreateTest } from "./page/create";
+import { startImbricateOriginPageListTest } from "./page/list";
 import { startImbricateOriginPageUpdateTest } from "./page/update";
 import { ImbricateOriginTestingTarget } from "./testing-target";
 
@@ -24,18 +25,11 @@ export const startImbricateOriginTest = (
             await testingTarget.dispose();
         });
 
-        startImbricateOriginCollectionCreateTest(
-            testingTarget,
-        );
+        startImbricateOriginCollectionCreateTest(testingTarget);
 
-        startImbricateOriginPageAttributeTest(
-            testingTarget,
-        );
-        startImbricateOriginPageCreateTest(
-            testingTarget,
-        );
-        startImbricateOriginPageUpdateTest(
-            testingTarget,
-        );
+        startImbricateOriginPageAttributeTest(testingTarget);
+        startImbricateOriginPageCreateTest(testingTarget);
+        startImbricateOriginPageListTest(testingTarget);
+        startImbricateOriginPageUpdateTest(testingTarget);
     });
 };
