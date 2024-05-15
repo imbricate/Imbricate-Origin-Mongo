@@ -4,7 +4,7 @@
  * @description Create
  */
 
-import { IImbricateOrigin, IImbricateCollection, IImbricatePage } from "@imbricate/core";
+import { IImbricateCollection, IImbricateOrigin, IImbricatePage } from "@imbricate/core";
 import { PageToBeDeleted } from "../definition";
 import { ImbricateOriginTestingTarget } from "../testing-target";
 

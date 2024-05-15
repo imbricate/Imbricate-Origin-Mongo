@@ -4,7 +4,7 @@
  * @description Create
  */
 
-import { IImbricateOrigin, IImbricateCollection } from "@imbricate/core";
+import { IImbricateCollection, IImbricateOrigin } from "@imbricate/core";
 import { ImbricateOriginTestingTarget } from "../testing-target";
 
 export const startImbricateOriginCollectionCreateTest = (
