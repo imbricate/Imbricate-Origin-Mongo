@@ -10,6 +10,7 @@ import { ICollectionModel } from "../database/collection/model";
 import { IPageModel, PageModel } from "../database/page/model";
 import { MongoImbricatePage } from "../page/page";
 import { mongoCreatePage } from "./create-page";
+import { mongoPutPage } from "./put-page";
 
 export class MongoImbricateCollection extends ImbricateCollectionBase implements IImbricateCollection {
 
@@ -56,11 +57,15 @@ export class MongoImbricateCollection extends ImbricateCollectionBase implements
     }
 
     public async putPage(
-        _pageMetadata: ImbricatePageMetadata,
-        _content: string,
+        pageMetadata: ImbricatePageMetadata,
+        content: string,
     ): Promise<IImbricatePage> {
 
-        throw new Error("Method not implemented.");
+        return await mongoPutPage(
+            this._collection.uniqueIdentifier,
+            pageMetadata,
+            content,
+        );
     }
 
     public async retitlePage(
