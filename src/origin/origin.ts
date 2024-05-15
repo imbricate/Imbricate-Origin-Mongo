@@ -15,6 +15,7 @@ import { MongoImbricateScript } from "../script/script";
 import { digestString } from "../util/digest";
 import { mongoCreateCollection } from "./create-collection";
 import { mongoCreateScript } from "./create-script";
+import { mongoPutScript } from "./put-script";
 
 export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbricateOrigin {
 
@@ -181,13 +182,13 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     }
 
     public async putScript(
-        _scriptMetadata: ImbricateScriptMetadata,
-        _script: string,
+        scriptMetadata: ImbricateScriptMetadata,
+        script: string,
     ): Promise<IImbricateScript> {
 
-        throw ImbricateNotImplemented.create(
-            "putScript",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.PUT_SCRIPT,
+        return await mongoPutScript(
+            scriptMetadata,
+            script,
         );
     }
 

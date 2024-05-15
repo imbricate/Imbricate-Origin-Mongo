@@ -7,7 +7,6 @@
 import { storeContent } from "../database/content/controller";
 import { createUnsavedScript } from "../database/script/controller";
 import { MongoImbricateScript } from "../script/script";
-import { digestStringLong } from "../util/digest";
 
 export const mongoCreateScript = async (
     scriptName: string,
@@ -23,8 +22,7 @@ export const mongoCreateScript = async (
 
     await newScript.save();
 
-    const digest: string = digestStringLong(initialScript);
-    await storeContent(digest, initialScript);
+    await storeContent(newScript.digest, initialScript);
 
     return MongoImbricateScript.withModel(newScript);
 };
