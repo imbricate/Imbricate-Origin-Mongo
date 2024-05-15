@@ -22,7 +22,7 @@ export const startImbricateOriginCollectionFindTest = (
             const createdCollection: IImbricateCollection =
                 await origin.createCollection("test-collection-find");
 
-            toBeDeleted.push(collection.uniqueIdentifier);
+            toBeDeleted.push(createdCollection.uniqueIdentifier);
             collection = createdCollection;
         });
 
