@@ -4,8 +4,7 @@
  * @description Origin
  */
 
-import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNotImplemented, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateScriptSnapshot, ImbricateSearchScriptConfig, SandboxExecuteConfig } from "@imbricate/core";
-import { MarkedResult } from "@sudoo/marked";
+import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNotImplemented, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateScriptSnapshot, ImbricateSearchScriptConfig } from "@imbricate/core";
 import { Connection } from "mongoose";
 import { MongoImbricateCollection } from "../collection/collection";
 import { CollectionModel, ICollectionModel } from "../database/collection/model";
@@ -225,14 +224,22 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     }
 
     public async searchScripts(
-        _keyword: string,
-        _config: ImbricateSearchScriptConfig,
+        keyword: string,
+        config: ImbricateSearchScriptConfig,
     ): Promise<ImbricateScriptSearchResult[]> {
 
-        throw ImbricateNotImplemented.create(
-            "searchScripts",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
-        );
+        const scripts = await ScriptModel.find({
+            scriptName: {
+                $regex: new RegExp(keyword, "i"),
+            },
+        });
+
+        return scripts.map((script: IScriptModel): ImbricateScriptSearchResult => {
+            return {
+                identifier: script.identifier,
+                scriptName: script.scriptName,
+            };
+        });
     }
 
     public async queryScripts(
@@ -242,17 +249,6 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
 
         throw ImbricateNotImplemented.create(
             "queryScripts",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
-        );
-    }
-
-    public async executeScript(
-        _scriptIdentifier: string,
-        _config: SandboxExecuteConfig,
-    ): Promise<MarkedResult | null> {
-
-        throw ImbricateNotImplemented.create(
-            "executeScript",
             IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
         );
     }
