@@ -109,6 +109,13 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
 
         this._script.imbricateUpdatedAt = updatedAt;
         this._script.imbricateDigest = digest;
+        this._script.historyRecords = [
+            ...this._script.historyRecords,
+            {
+                updatedAt: updatedAt,
+                digest: digest,
+            },
+        ];
 
         await this._script.save();
     }

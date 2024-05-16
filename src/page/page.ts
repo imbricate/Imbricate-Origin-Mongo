@@ -111,6 +111,13 @@ export class MongoImbricatePage extends ImbricatePageBase implements IImbricateP
 
         this._page.imbricateUpdatedAt = updatedAt;
         this._page.imbricateDigest = digest;
+        this._page.historyRecords = [
+            ...this._page.historyRecords,
+            {
+                updatedAt: updatedAt,
+                digest: digest,
+            },
+        ];
 
         await this._page.save();
     }

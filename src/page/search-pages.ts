@@ -20,7 +20,7 @@ export const mongoSearchPages = async (
             $regex: new RegExp(keyword, "i"),
         },
     }, {}, {
-        limit: config.limit,
+        limit: config.itemLimit,
     });
 
     const contentMap: Map<string, IContentModel> = new Map();
@@ -45,7 +45,7 @@ export const mongoSearchPages = async (
             },
         ],
     }, {}, {
-        limit: config.limit,
+        limit: config.itemLimit,
     });
 
     return pages.map((page: IPageModel): ImbricatePageSearchResult => {

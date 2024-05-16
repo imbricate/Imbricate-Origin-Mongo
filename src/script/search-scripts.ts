@@ -17,7 +17,7 @@ export const mongoSearchScripts = async (
             $regex: new RegExp(keyword, "i"),
         },
     }, {}, {
-        limit: config.limit,
+        limit: config.itemLimit,
     });
 
     return scripts.map((script: IScriptModel): ImbricateScriptSearchResult => {
