@@ -10,6 +10,7 @@ import { startImbricateOriginCollectionRenameTest } from "./collection/rename";
 import { startImbricateOriginPageAttributeTest } from "./page/attribute";
 import { startImbricateOriginPageCreateTest } from "./page/create";
 import { startImbricateOriginPageListTest } from "./page/list";
+import { startImbricateOriginPageRetitleTest } from "./page/retitle";
 import { startImbricateOriginPageSearchTest } from "./page/search";
 import { startImbricateOriginPageUpdateTest } from "./page/update";
 import { startImbricateOriginScriptCreateTest } from "./script/create";
@@ -38,6 +39,7 @@ export const startImbricateOriginTest = (
         startImbricateOriginPageAttributeTest(testingTarget);
         startImbricateOriginPageCreateTest(testingTarget);
         startImbricateOriginPageListTest(testingTarget);
+        startImbricateOriginPageRetitleTest(testingTarget);
         startImbricateOriginPageSearchTest(testingTarget);
         startImbricateOriginPageUpdateTest(testingTarget);
 

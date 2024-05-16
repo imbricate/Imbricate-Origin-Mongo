@@ -70,11 +70,16 @@ export class MongoImbricateCollection extends ImbricateCollectionBase implements
     }
 
     public async retitlePage(
-        _identifier: string,
-        _newTitle: string,
+        identifier: string,
+        newTitle: string,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        await PageModel.updateOne({
+            collectionUniqueIdentifier: this._collection.uniqueIdentifier,
+            identifier,
+        }, {
+            title: newTitle,
+        });
     }
 
     public async deletePage(
