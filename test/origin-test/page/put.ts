@@ -58,6 +58,7 @@ export const startImbricateOriginPagePutTest = (
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 digest: "test-digest",
+                attributes: {},
                 historyRecords: [],
             };
 
