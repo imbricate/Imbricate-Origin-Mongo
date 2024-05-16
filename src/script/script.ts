@@ -7,6 +7,7 @@
 import { IImbricateScript, ImbricateScriptAttributes, ImbricateScriptBase, ImbricateScriptCapability, ImbricateScriptHistoryRecord, SandboxExecuteConfig, SandboxExecuteParameter, SandboxFeature } from "@imbricate/core";
 import { MarkedResult } from "@sudoo/marked";
 import { storeContent } from "../database/content/controller";
+import { CONTENT_SOURCE_TYPE } from "../database/content/interface";
 import { ContentModel, IContentModel } from "../database/content/model";
 import { IScriptModel } from "../database/script/model";
 import { digestStringLong } from "../util/digest";
@@ -74,7 +75,11 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
         if (this._script.scriptDigest === digest) {
             return;
         }
-        const contentModel: IContentModel = await storeContent(digest, script);
+        const contentModel: IContentModel = await storeContent(
+            CONTENT_SOURCE_TYPE.SCRIPT,
+            digest,
+            script,
+        );
 
         this._script.updateScript(contentModel.digest);
         await this._script.save();

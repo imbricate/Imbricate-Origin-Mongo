@@ -6,6 +6,7 @@
 
 import { IImbricatePage, ImbricatePageAttributes, ImbricatePageBase, ImbricatePageCapability, ImbricatePageHistoryRecord } from "@imbricate/core";
 import { storeContent } from "../database/content/controller";
+import { CONTENT_SOURCE_TYPE } from "../database/content/interface";
 import { ContentModel, IContentModel } from "../database/content/model";
 import { IPageModel } from "../database/page/model";
 import { digestStringLong } from "../util/digest";
@@ -76,7 +77,11 @@ export class MongoImbricatePage extends ImbricatePageBase implements IImbricateP
         if (this._page.contentDigest === digest) {
             return;
         }
-        const contentModel: IContentModel = await storeContent(digest, content);
+        const contentModel: IContentModel = await storeContent(
+            CONTENT_SOURCE_TYPE.PAGE,
+            digest,
+            content,
+        );
 
         this._page.updateContent(contentModel.digest);
         await this._page.save();

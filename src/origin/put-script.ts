@@ -6,6 +6,7 @@
 
 import { ImbricateScriptMetadata } from "@imbricate/core";
 import { storeContent } from "../database/content/controller";
+import { CONTENT_SOURCE_TYPE } from "../database/content/interface";
 import { IScriptConfig } from "../database/script/interface";
 import { ScriptModel } from "../database/script/model";
 import { MongoImbricateScript } from "../script/script";
@@ -36,7 +37,11 @@ export const mongoPutScript = async (
 
     const scriptModel = new ScriptModel(scriptConfig);
 
-    await storeContent(scriptDigest, script);
+    await storeContent(
+        CONTENT_SOURCE_TYPE.SCRIPT,
+        scriptDigest,
+        script,
+    );
     await scriptModel.save();
 
     return MongoImbricateScript.withModel(scriptModel);

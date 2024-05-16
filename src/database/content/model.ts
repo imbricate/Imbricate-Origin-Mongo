@@ -9,6 +9,11 @@ import { IContent } from "./interface";
 
 const ContentSchema: Schema<IContentModel> = new Schema(
     {
+        sourceType: {
+            type: String,
+            required: true,
+            index: true,
+        },
         digest: {
             type: String,
             required: true,

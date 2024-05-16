@@ -4,16 +4,18 @@
  * @description Controller
  */
 
-import { IContentConfig } from "./interface";
+import { CONTENT_SOURCE_TYPE, IContentConfig } from "./interface";
 import { ContentModel, IContentModel } from "./model";
 
 export const createUnsavedContent = (
+    sourceType: CONTENT_SOURCE_TYPE,
     digest: string,
     content: string,
 ): IContentModel => {
 
     const contentConfig: IContentConfig = {
 
+        sourceType,
         digest,
         content,
     };
@@ -21,6 +23,7 @@ export const createUnsavedContent = (
 };
 
 export const storeContent = async (
+    sourceType: CONTENT_SOURCE_TYPE,
     digest: string,
     content: string,
 ): Promise<IContentModel> => {
@@ -31,7 +34,11 @@ export const storeContent = async (
     if (existingContent) {
         return existingContent;
     }
-    const newContent: IContentModel = createUnsavedContent(digest, content);
+    const newContent: IContentModel = createUnsavedContent(
+        sourceType,
+        digest,
+        content,
+    );
     await newContent.save();
 
     return newContent;

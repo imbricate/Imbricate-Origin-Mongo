@@ -10,6 +10,7 @@ import { IPageConfig } from "../database/page/interface";
 import { PageModel } from "../database/page/model";
 import { MongoImbricatePage } from "../page/page";
 import { digestStringLong } from "../util/digest";
+import { CONTENT_SOURCE_TYPE } from "../database/content/interface";
 
 export const mongoPutPage = async (
     collectionUniqueIdentifier: string,
@@ -40,7 +41,11 @@ export const mongoPutPage = async (
 
     const pageModel = new PageModel(pageConfig);
 
-    await storeContent(pageDigest, pageContent);
+    await storeContent(
+        CONTENT_SOURCE_TYPE.PAGE,
+        pageDigest,
+        pageContent,
+    );
     await pageModel.save();
 
     return MongoImbricatePage.withModel(pageModel);

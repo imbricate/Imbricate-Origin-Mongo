@@ -5,6 +5,7 @@
  */
 
 import { storeContent } from "../database/content/controller";
+import { CONTENT_SOURCE_TYPE } from "../database/content/interface";
 import { createUnsavedScript } from "../database/script/controller";
 import { MongoImbricateScript } from "../script/script";
 
@@ -22,7 +23,11 @@ export const mongoCreateScript = async (
 
     await newScript.save();
 
-    await storeContent(newScript.scriptDigest, initialScript);
+    await storeContent(
+        CONTENT_SOURCE_TYPE.SCRIPT,
+        newScript.scriptDigest,
+        initialScript,
+    );
 
     return MongoImbricateScript.withModel(newScript);
 };
