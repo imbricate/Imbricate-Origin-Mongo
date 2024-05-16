@@ -5,9 +5,8 @@
  * @override E2E
  */
 
+import { ImbricateOriginTestingTarget, startImbricateOriginTest } from "@imbricate/test-origin-jest";
 import { MongoImbricateOrigin } from "../../src";
-import { startImbricateOriginTest } from "../origin-test/origin-test";
-import { ImbricateOriginTestingTarget } from "../origin-test/testing-target";
 
 const testingTarget = ImbricateOriginTestingTarget.fromConstructor(
     async () => {
