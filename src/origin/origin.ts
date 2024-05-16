@@ -4,7 +4,7 @@
  * @description Origin
  */
 
-import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNotImplemented, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateScriptSnapshot, ImbricateSearchScriptConfig } from "@imbricate/core";
+import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, IMBRICATE_SEARCH_RESULT_TYPE, IMBRICATE_SEARCH_SNIPPET_SCRIPT_SNIPPET_SOURCE, ImbricateNotImplemented, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateScriptSnapshot, ImbricateSearchScriptConfig } from "@imbricate/core";
 import { Connection } from "mongoose";
 import { MongoImbricateCollection } from "../collection/collection";
 import { CollectionModel, ICollectionModel } from "../database/collection/model";
@@ -228,16 +228,28 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         config: ImbricateSearchScriptConfig,
     ): Promise<ImbricateScriptSearchResult[]> {
 
-        const scripts = await ScriptModel.find({
+        const scripts: IScriptModel[] = await ScriptModel.find({
             scriptName: {
                 $regex: new RegExp(keyword, "i"),
             },
+        }, {}, {
+            limit: config.limit,
         });
 
         return scripts.map((script: IScriptModel): ImbricateScriptSearchResult => {
+
             return {
+                type: IMBRICATE_SEARCH_RESULT_TYPE.SCRIPT,
                 identifier: script.identifier,
-                scriptName: script.scriptName,
+                headline: script.scriptName,
+                snippets: [{
+                    source: IMBRICATE_SEARCH_SNIPPET_SCRIPT_SNIPPET_SOURCE.NAME,
+                    snippet: script.scriptName,
+                    highlight: {
+                        start: 0,
+                        length: script.scriptName.length,
+                    },
+                }],
             };
         });
     }
