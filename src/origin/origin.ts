@@ -193,14 +193,15 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     }
 
     public async renameScript(
-        _identifier: string,
-        _newScriptName: string,
+        identifier: string,
+        newScriptName: string,
     ): Promise<void> {
 
-        throw ImbricateNotImplemented.create(
-            "renameScript",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.RENAME_SCRIPT,
-        );
+        await ScriptModel.updateOne({
+            identifier,
+        }, {
+            scriptName: newScriptName,
+        });
     }
 
     public async listScripts(): Promise<ImbricateScriptSnapshot[]> {
