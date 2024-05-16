@@ -57,10 +57,24 @@ export const startImbricateOriginScriptSearchTest = (
             const scripts: ImbricateScriptSearchResult[] = await origin.searchScripts(
                 "script",
                 {
+                    limit: 10,
                 },
             );
 
             expect(scripts).toHaveLength(2);
+        });
+
+        it("should be able to search scripts with limit", async (): Promise<void> => {
+
+            const origin: IImbricateOrigin = testingTarget.ensureOrigin();
+            const scripts: ImbricateScriptSearchResult[] = await origin.searchScripts(
+                "script",
+                {
+                    limit: 1,
+                },
+            );
+
+            expect(scripts).toHaveLength(1);
         });
     });
 };

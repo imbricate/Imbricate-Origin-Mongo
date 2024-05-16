@@ -9,6 +9,7 @@ import { FilterQuery } from "mongoose";
 import { ICollectionModel } from "../database/collection/model";
 import { IPageModel, PageModel } from "../database/page/model";
 import { MongoImbricatePage } from "../page/page";
+import { mongoSearchPages } from "../page/search-pages";
 import { mongoCreatePage } from "./create-page";
 import { mongoPutPage } from "./put-page";
 
@@ -176,11 +177,14 @@ export class MongoImbricateCollection extends ImbricateCollectionBase implements
     }
 
     public async searchPages(
-        _keyword: string,
-        _config: ImbricateSearchPageConfig,
+        keyword: string,
+        config: ImbricateSearchPageConfig,
     ): Promise<ImbricatePageSearchResult[]> {
 
-        throw new Error("Method not implemented.");
+        return await mongoSearchPages(
+            keyword,
+            config,
+        );
     }
 
     public async queryPages(
