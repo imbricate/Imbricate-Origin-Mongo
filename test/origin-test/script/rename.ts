@@ -23,7 +23,7 @@ export const startImbricateOriginScriptRenameTest = (
 
             const testScript: IImbricateScript = await origin.createScript(
                 "old-script-name",
-                "first-content",
+                "test-content",
             );
 
             scriptToBeDeleted.push({

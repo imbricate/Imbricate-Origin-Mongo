@@ -87,15 +87,19 @@ export class MongoImbricateScript extends ImbricateScriptBase implements IImbric
 
     public async readAttributes(): Promise<ImbricateScriptAttributes> {
 
-        throw new Error("Method not implemented.");
+        return this._script.attributes;
     }
 
     public async writeAttribute(
-        _key: string,
-        _value: string,
+        key: string,
+        value: string,
     ): Promise<void> {
 
-        throw new Error("Method not implemented.");
+        this._script.attributes = {
+            ...this._script.attributes,
+            [key]: value,
+        };
+        await this._script.save();
     }
 
     public async refreshUpdateMetadata(

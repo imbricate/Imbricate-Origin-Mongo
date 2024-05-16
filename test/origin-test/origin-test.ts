@@ -13,6 +13,7 @@ import { startImbricateOriginPageListTest } from "./page/list";
 import { startImbricateOriginPageRetitleTest } from "./page/retitle";
 import { startImbricateOriginPageSearchTest } from "./page/search";
 import { startImbricateOriginPageUpdateTest } from "./page/update";
+import { startImbricateOriginScriptAttributeTest } from "./script/attribute";
 import { startImbricateOriginScriptCreateTest } from "./script/create";
 import { startImbricateOriginScriptListTest } from "./script/list";
 import { startImbricateOriginScriptRenameTest } from "./script/rename";
@@ -44,6 +45,7 @@ export const startImbricateOriginTest = (
         startImbricateOriginPageSearchTest(testingTarget);
         startImbricateOriginPageUpdateTest(testingTarget);
 
+        startImbricateOriginScriptAttributeTest(testingTarget);
         startImbricateOriginScriptCreateTest(testingTarget);
         startImbricateOriginScriptListTest(testingTarget);
         startImbricateOriginScriptRenameTest(testingTarget);
