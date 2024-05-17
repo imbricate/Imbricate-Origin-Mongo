@@ -22,7 +22,6 @@ const ContentSchema: Schema<IContentModel> = new Schema(
         },
         content: {
             type: String,
-            required: true,
         },
     },
     {
