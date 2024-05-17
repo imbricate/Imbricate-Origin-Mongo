@@ -34,6 +34,7 @@ export const storeContent = async (
     if (existingContent) {
         return existingContent;
     }
+
     const newContent: IContentModel = createUnsavedContent(
         sourceType,
         digest,

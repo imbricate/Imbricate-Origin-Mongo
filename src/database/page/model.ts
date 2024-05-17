@@ -43,6 +43,7 @@ const PageSchema: Schema<IPageModel> = new Schema(
             type: [String],
             required: true,
             index: true,
+            default: [],
         },
         identifier: {
             type: String,
@@ -58,12 +59,14 @@ const PageSchema: Schema<IPageModel> = new Schema(
             required: true,
         },
         attributes: {
-            type: Schema.Types.Mixed,
+            type: Object,
             required: true,
+            default: {},
         },
         historyRecords: {
             type: [PageHistoryRecordSchema],
             required: true,
+            default: [],
         },
         imbricateUpdatedAt: {
             type: Date,
