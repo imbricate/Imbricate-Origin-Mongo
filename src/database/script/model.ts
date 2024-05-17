@@ -50,10 +50,12 @@ const ScriptSchema: Schema<IScriptModel> = new Schema(
         attributes: {
             type: Schema.Types.Mixed,
             required: true,
+            default: {},
         },
         historyRecords: {
             type: [ScriptHistoryRecordSchema],
             required: true,
+            default: [],
         },
         imbricateUpdatedAt: {
             type: Date,

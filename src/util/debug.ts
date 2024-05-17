@@ -17,6 +17,6 @@ export const isTest = (): boolean => {
 export const debugLog = (...args: any[]): void => {
 
     if (isDebug()) {
-        console.log("[IMBRICATE_DEBUG]", ...args);
+        console.log("[IMBRICATE_DEBUG_ORIGIN_MONGO]", ...args);
     }
 };
