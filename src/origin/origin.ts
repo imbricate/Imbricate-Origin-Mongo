@@ -16,6 +16,7 @@ import { digestString } from "../util/digest";
 import { mongoCreateCollection } from "./create-collection";
 import { mongoCreateScript } from "./create-script";
 import { mongoPutScript } from "./put-script";
+import { debugLog } from "../util/debug";
 
 export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbricateOrigin {
 
@@ -132,6 +133,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     public async listCollections(): Promise<IImbricateCollection[]> {
 
         await this._connect();
+
         const collectionModels = await CollectionModel.find({});
         return collectionModels.map((model: ICollectionModel) => {
             return MongoImbricateCollection.withModel(model);
@@ -262,8 +264,12 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     public async dispose(): Promise<void> {
 
         if (!this._connection) {
+
+            debugLog("No connection to dispose", this.uniqueIdentifier);
             return;
         }
+
+        debugLog("Closing mongo database", this.uniqueIdentifier);
 
         await this._connection.close();
     }
@@ -274,8 +280,11 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
             return this._connection;
         }
 
+        debugLog("Connecting to mongo database", this.uniqueIdentifier);
+
         const connection: Connection = await connectDatabase(this._databaseUrl);
         this._connection = connection;
+
         return connection;
     }
 }
