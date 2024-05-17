@@ -19,13 +19,11 @@ import { mongoPutScript } from "./put-script";
 
 export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbricateOrigin {
 
-    public static async create(
+    public static create(
         databaseUrl: string,
-    ): Promise<MongoImbricateOrigin> {
+    ): MongoImbricateOrigin {
 
-        const connection: Connection = await connectDatabase(databaseUrl);
-
-        return new MongoImbricateOrigin(databaseUrl, connection);
+        return new MongoImbricateOrigin(databaseUrl);
     }
 
     private readonly _databaseUrl: string;
@@ -39,17 +37,16 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     };
     public readonly payloads: Record<string, any> = {};
 
-    private readonly _connection: Connection;
+    private _connection: Connection | null;
 
     private constructor(
         databaseUrl: string,
-        connection: Connection,
     ) {
 
         super();
 
         this._databaseUrl = databaseUrl;
-        this._connection = connection;
+        this._connection = null;
     }
 
     public get uniqueIdentifier(): string {
@@ -71,6 +68,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         description?: string,
     ): Promise<MongoImbricateCollection> {
 
+        await this._connect();
         return await mongoCreateCollection(
             collectionName,
             description,
@@ -79,6 +77,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
 
     public async hasCollection(collectionName: string): Promise<boolean> {
 
+        await this._connect();
         const exists = await CollectionModel.exists({
             collectionName,
         });
@@ -90,6 +89,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         collectionUniqueIdentifier: string,
     ): Promise<IImbricateCollection | null> {
 
+        await this._connect();
         const collectionModel: ICollectionModel | null = await CollectionModel.findOne({
             uniqueIdentifier: collectionUniqueIdentifier,
         });
@@ -104,6 +104,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         collectionName: string,
     ): Promise<IImbricateCollection | null> {
 
+        await this._connect();
         const collectionModel: ICollectionModel | null = await CollectionModel.findOne({
             collectionName,
         });
@@ -119,6 +120,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         newCollectionName: string,
     ): Promise<void> {
 
+        await this._connect();
         await CollectionModel.updateOne({
             uniqueIdentifier: collectionUniqueIdentifier,
         }, {
@@ -129,6 +131,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
 
     public async listCollections(): Promise<IImbricateCollection[]> {
 
+        await this._connect();
         const collectionModels = await CollectionModel.find({});
         return collectionModels.map((model: ICollectionModel) => {
             return MongoImbricateCollection.withModel(model);
@@ -139,6 +142,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         collectionUniqueIdentifier: string,
     ): Promise<void> {
 
+        await this._connect();
         await CollectionModel.deleteOne({
             uniqueIdentifier: collectionUniqueIdentifier,
         });
@@ -150,6 +154,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         description?: string,
     ): Promise<IImbricateScript> {
 
+        await this._connect();
         return mongoCreateScript(
             scriptName,
             initialScript,
@@ -161,6 +166,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         scriptName: string,
     ): Promise<boolean> {
 
+        await this._connect();
         const ifExist = await ScriptModel.exists({
             scriptName,
         });
@@ -171,6 +177,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         identifier: string,
     ): Promise<IImbricateScript | null> {
 
+        await this._connect();
         const script = await ScriptModel.findOne({
             identifier,
         });
@@ -186,6 +193,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         script: string,
     ): Promise<IImbricateScript> {
 
+        await this._connect();
         return await mongoPutScript(
             scriptMetadata,
             script,
@@ -197,6 +205,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         newScriptName: string,
     ): Promise<void> {
 
+        await this._connect();
         await ScriptModel.updateOne({
             identifier,
         }, {
@@ -206,6 +215,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
 
     public async listScripts(): Promise<ImbricateScriptSnapshot[]> {
 
+        await this._connect();
         const scripts = await ScriptModel.find({});
 
         return scripts.map((script: IScriptModel): ImbricateScriptSnapshot => {
@@ -220,6 +230,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         identifier: string,
     ): Promise<void> {
 
+        await this._connect();
         await ScriptModel.deleteOne({
             identifier,
         });
@@ -230,6 +241,7 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         config: ImbricateSearchScriptConfig,
     ): Promise<ImbricateScriptSearchResult[]> {
 
+        await this._connect();
         return await mongoSearchScripts(
             keyword,
             config,
@@ -249,6 +261,21 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
 
     public async dispose(): Promise<void> {
 
+        if (!this._connection) {
+            return;
+        }
+
         await this._connection.close();
+    }
+
+    private async _connect(): Promise<Connection> {
+
+        if (this._connection) {
+            return this._connection;
+        }
+
+        const connection: Connection = await connectDatabase(this._databaseUrl);
+        this._connection = connection;
+        return connection;
     }
 }
