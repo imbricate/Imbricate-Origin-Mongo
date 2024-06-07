@@ -13,13 +13,22 @@ import { mongoSearchScripts } from "../script/search-scripts";
 
 export class MongoImbricateScriptManager extends ImbricateScriptManagerBase implements IImbricateScriptManager {
 
-    public static create(): MongoImbricateScriptManager {
+    public static create(
+        connectFunction: () => Promise<void>,
+    ): MongoImbricateScriptManager {
 
-        return new MongoImbricateScriptManager();
+        return new MongoImbricateScriptManager(connectFunction);
     }
 
-    private constructor() {
+    private readonly _connectFunction: () => Promise<void>;
+
+    private constructor(
+        connectFunction: () => Promise<void>,
+    ) {
+
         super();
+
+        this._connectFunction = connectFunction;
     }
 
     public get capabilities(): ImbricateScriptManagerCapability {

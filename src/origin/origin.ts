@@ -60,10 +60,11 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         throw new Error("Method not implemented.");
     }
 
-    public async getScriptManager(): Promise<IImbricateScriptManager> {
+    public getScriptManager(): IImbricateScriptManager {
 
-        await this._connect();
-        return MongoImbricateScriptManager.create();
+        return MongoImbricateScriptManager.create(
+            this._connect.bind(this),
+        );
     }
 
     public async createCollection(
