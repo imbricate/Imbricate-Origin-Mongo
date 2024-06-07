@@ -5,6 +5,7 @@
  */
 
 import { IImbricateScript, IImbricateScriptManager, IMBRICATE_SCRIPT_MANAGER_CAPABILITY_KEY, ImbricateNotImplemented, ImbricateScriptManagerBase, ImbricateScriptManagerCapability, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateScriptSnapshot, ImbricateSearchScriptConfig } from "@imbricate/core";
+import { Connection } from "mongoose";
 import { IScriptModel, ScriptModel } from "../database/script/model";
 import { mongoCreateScript } from "../origin/create-script";
 import { mongoPutScript } from "../origin/put-script";
@@ -14,16 +15,16 @@ import { mongoSearchScripts } from "../script/search-scripts";
 export class MongoImbricateScriptManager extends ImbricateScriptManagerBase implements IImbricateScriptManager {
 
     public static create(
-        connectFunction: () => Promise<void>,
+        connectFunction: () => Promise<Connection>,
     ): MongoImbricateScriptManager {
 
         return new MongoImbricateScriptManager(connectFunction);
     }
 
-    private readonly _connectFunction: () => Promise<void>;
+    private readonly _connectFunction: () => Promise<Connection>;
 
     private constructor(
-        connectFunction: () => Promise<void>,
+        connectFunction: () => Promise<Connection>,
     ) {
 
         super();
