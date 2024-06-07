@@ -4,19 +4,15 @@
  * @description Origin
  */
 
-import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScript, IMBRICATE_DIGEST_ALGORITHM, IMBRICATE_ORIGIN_CAPABILITY_KEY, ImbricateNotImplemented, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata, ImbricateScriptMetadata, ImbricateScriptQuery, ImbricateScriptQueryConfig, ImbricateScriptSearchResult, ImbricateScriptSnapshot, ImbricateSearchScriptConfig } from "@imbricate/core";
+import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScriptManager, IMBRICATE_DIGEST_ALGORITHM, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata } from "@imbricate/core";
 import { Connection } from "mongoose";
 import { MongoImbricateCollection } from "../collection/collection";
 import { CollectionModel, ICollectionModel } from "../database/collection/model";
 import { connectDatabase } from "../database/connect";
-import { IScriptModel, ScriptModel } from "../database/script/model";
-import { MongoImbricateScript } from "../script/script";
-import { mongoSearchScripts } from "../script/search-scripts";
+import { MongoImbricateScriptManager } from "../script-manager/script-manager";
+import { debugLog } from "../util/debug";
 import { digestString } from "../util/digest";
 import { mongoCreateCollection } from "./create-collection";
-import { mongoCreateScript } from "./create-script";
-import { mongoPutScript } from "./put-script";
-import { debugLog } from "../util/debug";
 
 export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbricateOrigin {
 
@@ -62,6 +58,12 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
     public getBinaryStorage(): IImbricateBinaryStorage {
 
         throw new Error("Method not implemented.");
+    }
+
+    public async getScriptManager(): Promise<IImbricateScriptManager> {
+
+        await this._connect();
+        return MongoImbricateScriptManager.create();
     }
 
     public async createCollection(
@@ -150,116 +152,6 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         });
     }
 
-    public async createScript(
-        scriptName: string,
-        initialScript: string,
-        description?: string,
-    ): Promise<IImbricateScript> {
-
-        await this._connect();
-        return mongoCreateScript(
-            scriptName,
-            initialScript,
-            description,
-        );
-    }
-
-    public async hasScript(
-        scriptName: string,
-    ): Promise<boolean> {
-
-        await this._connect();
-        const ifExist = await ScriptModel.exists({
-            scriptName,
-        });
-        return Boolean(ifExist);
-    }
-
-    public async getScript(
-        identifier: string,
-    ): Promise<IImbricateScript | null> {
-
-        await this._connect();
-        const script = await ScriptModel.findOne({
-            identifier,
-        });
-
-        if (!script) {
-            return null;
-        }
-        return MongoImbricateScript.withModel(script);
-    }
-
-    public async putScript(
-        scriptMetadata: ImbricateScriptMetadata,
-        script: string,
-    ): Promise<IImbricateScript> {
-
-        await this._connect();
-        return await mongoPutScript(
-            scriptMetadata,
-            script,
-        );
-    }
-
-    public async renameScript(
-        identifier: string,
-        newScriptName: string,
-    ): Promise<void> {
-
-        await this._connect();
-        await ScriptModel.updateOne({
-            identifier,
-        }, {
-            scriptName: newScriptName,
-        });
-    }
-
-    public async listScripts(): Promise<ImbricateScriptSnapshot[]> {
-
-        await this._connect();
-        const scripts = await ScriptModel.find({});
-
-        return scripts.map((script: IScriptModel): ImbricateScriptSnapshot => {
-            return {
-                identifier: script.identifier,
-                scriptName: script.scriptName,
-            };
-        });
-    }
-
-    public async deleteScript(
-        identifier: string,
-    ): Promise<void> {
-
-        await this._connect();
-        await ScriptModel.deleteOne({
-            identifier,
-        });
-    }
-
-    public async searchScripts(
-        keyword: string,
-        config: ImbricateSearchScriptConfig,
-    ): Promise<ImbricateScriptSearchResult[]> {
-
-        await this._connect();
-        return await mongoSearchScripts(
-            keyword,
-            config,
-        );
-    }
-
-    public async queryScripts(
-        _query: ImbricateScriptQuery,
-        _config: ImbricateScriptQueryConfig,
-    ): Promise<IImbricateScript[]> {
-
-        throw ImbricateNotImplemented.create(
-            "queryScripts",
-            IMBRICATE_ORIGIN_CAPABILITY_KEY.GET_SCRIPT,
-        );
-    }
 
     public async dispose(): Promise<void> {
 
