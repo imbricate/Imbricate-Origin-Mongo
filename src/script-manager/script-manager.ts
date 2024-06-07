@@ -41,6 +41,7 @@ export class MongoImbricateScriptManager extends ImbricateScriptManagerBase impl
         description?: string,
     ): Promise<IImbricateScript> {
 
+        await this._connectFunction();
         return mongoCreateScript(
             scriptName,
             initialScript,
@@ -52,6 +53,7 @@ export class MongoImbricateScriptManager extends ImbricateScriptManagerBase impl
         scriptName: string,
     ): Promise<boolean> {
 
+        await this._connectFunction();
         const ifExist = await ScriptModel.exists({
             scriptName,
         });
@@ -62,6 +64,7 @@ export class MongoImbricateScriptManager extends ImbricateScriptManagerBase impl
         identifier: string,
     ): Promise<IImbricateScript | null> {
 
+        await this._connectFunction();
         const script = await ScriptModel.findOne({
             identifier,
         });
@@ -77,6 +80,7 @@ export class MongoImbricateScriptManager extends ImbricateScriptManagerBase impl
         script: string,
     ): Promise<IImbricateScript> {
 
+        await this._connectFunction();
         return await mongoPutScript(
             scriptMetadata,
             script,
@@ -88,6 +92,7 @@ export class MongoImbricateScriptManager extends ImbricateScriptManagerBase impl
         newScriptName: string,
     ): Promise<void> {
 
+        await this._connectFunction();
         await ScriptModel.updateOne({
             identifier,
         }, {
@@ -97,6 +102,7 @@ export class MongoImbricateScriptManager extends ImbricateScriptManagerBase impl
 
     public async listScripts(): Promise<ImbricateScriptSnapshot[]> {
 
+        await this._connectFunction();
         const scripts = await ScriptModel.find({});
 
         return scripts.map((script: IScriptModel): ImbricateScriptSnapshot => {
@@ -111,6 +117,7 @@ export class MongoImbricateScriptManager extends ImbricateScriptManagerBase impl
         identifier: string,
     ): Promise<void> {
 
+        await this._connectFunction();
         await ScriptModel.deleteOne({
             identifier,
         });
@@ -121,6 +128,7 @@ export class MongoImbricateScriptManager extends ImbricateScriptManagerBase impl
         config: ImbricateSearchScriptConfig,
     ): Promise<ImbricateScriptSearchResult[]> {
 
+        await this._connectFunction();
         return await mongoSearchScripts(
             keyword,
             config,
