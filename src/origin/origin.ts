@@ -4,15 +4,13 @@
  * @description Origin
  */
 
-import { IImbricateBinaryStorage, IImbricateCollection, IImbricateFunctionManager, IImbricateOrigin, IImbricateScriptManager, IMBRICATE_DIGEST_ALGORITHM, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata } from "@imbricate/core";
+import { IImbricateBinaryStorage, IImbricateCollectionManager, IImbricateFunctionManager, IImbricateOrigin, IImbricateScriptManager, IMBRICATE_DIGEST_ALGORITHM, ImbricateOriginBase, ImbricateOriginCapability, ImbricateOriginMetadata } from "@imbricate/core";
 import { Connection } from "mongoose";
-import { MongoImbricateCollection } from "../collection/collection";
-import { CollectionModel, ICollectionModel } from "../database/collection/model";
+import { MongoImbricateCollectionManager } from "../collection-manager/collection-manager";
 import { connectDatabase } from "../database/connect";
 import { MongoImbricateScriptManager } from "../script-manager/script-manager";
 import { debugLog } from "../util/debug";
 import { digestString } from "../util/digest";
-import { mongoCreateCollection } from "./create-collection";
 
 export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbricateOrigin {
 
@@ -67,92 +65,12 @@ export class MongoImbricateOrigin extends ImbricateOriginBase implements IImbric
         );
     }
 
-    public async createCollection(
-        collectionName: string,
-        description?: string,
-    ): Promise<MongoImbricateCollection> {
+    public getCollectionManager(): IImbricateCollectionManager {
 
-        await this._connect();
-        return await mongoCreateCollection(
-            collectionName,
-            description,
+        return MongoImbricateCollectionManager.create(
+            this._connect.bind(this),
         );
     }
-
-    public async hasCollection(collectionName: string): Promise<boolean> {
-
-        await this._connect();
-        const exists = await CollectionModel.exists({
-            collectionName,
-        });
-
-        return Boolean(exists);
-    }
-
-    public async getCollection(
-        collectionUniqueIdentifier: string,
-    ): Promise<IImbricateCollection | null> {
-
-        await this._connect();
-        const collectionModel: ICollectionModel | null = await CollectionModel.findOne({
-            uniqueIdentifier: collectionUniqueIdentifier,
-        });
-
-        if (!collectionModel) {
-            return null;
-        }
-        return MongoImbricateCollection.withModel(collectionModel);
-    }
-
-    public async findCollection(
-        collectionName: string,
-    ): Promise<IImbricateCollection | null> {
-
-        await this._connect();
-        const collectionModel: ICollectionModel | null = await CollectionModel.findOne({
-            collectionName,
-        });
-
-        if (!collectionModel) {
-            return null;
-        }
-        return MongoImbricateCollection.withModel(collectionModel);
-    }
-
-    public async renameCollection(
-        collectionUniqueIdentifier: string,
-        newCollectionName: string,
-    ): Promise<void> {
-
-        await this._connect();
-        await CollectionModel.updateOne({
-            uniqueIdentifier: collectionUniqueIdentifier,
-        }, {
-            collectionName: newCollectionName,
-        });
-        return;
-    }
-
-    public async listCollections(): Promise<IImbricateCollection[]> {
-
-        await this._connect();
-
-        const collectionModels = await CollectionModel.find({});
-        return collectionModels.map((model: ICollectionModel) => {
-            return MongoImbricateCollection.withModel(model);
-        });
-    }
-
-    public async deleteCollection(
-        collectionUniqueIdentifier: string,
-    ): Promise<void> {
-
-        await this._connect();
-        await CollectionModel.deleteOne({
-            uniqueIdentifier: collectionUniqueIdentifier,
-        });
-    }
-
 
     public async dispose(): Promise<void> {
 
