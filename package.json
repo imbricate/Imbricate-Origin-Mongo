@@ -1,7 +1,7 @@
 {
   "name": "@imbricate/origin-mongo",
   "packageManager": "yarn@4.1.1",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "File System Origin Implementation for MongoDB",
   "scripts": {
     "test": "jest",
