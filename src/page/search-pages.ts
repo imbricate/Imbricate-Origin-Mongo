@@ -95,7 +95,8 @@ export const mongoSearchPages = async (
 
         return {
             type: IMBRICATE_SEARCH_RESULT_TYPE.PAGE,
-            scope: page.collectionUniqueIdentifier,
+            collectionName: page.collectionUniqueIdentifier,
+            collectionUniqueIdentifier: page.collectionUniqueIdentifier,
             identifier: page.identifier,
             headline: page.title,
             snippets,
