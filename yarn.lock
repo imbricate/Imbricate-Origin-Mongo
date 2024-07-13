@@ -1954,9 +1954,9 @@ __metadata:
     babel-jest: "npm:^29.7.0"
     eslint: "npm:^8.57.0"
     jest: "npm:^29.7.0"
-    mongoose: "npm:^8.4.3"
+    mongoose: "npm:^8.5.0"
     ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.4.5"
+    typescript: "npm:^5.5.3"
   peerDependencies:
     "@imbricate/core": "*"
   languageName: unknown
@@ -5138,9 +5138,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:6.6.2":
-  version: 6.6.2
-  resolution: "mongodb@npm:6.6.2"
+"mongodb@npm:6.7.0":
+  version: 6.7.0
+  resolution: "mongodb@npm:6.7.0"
   dependencies:
     "@mongodb-js/saslprep": "npm:^1.1.5"
     bson: "npm:^6.7.0"
@@ -5168,22 +5168,22 @@ __metadata:
       optional: true
     socks:
       optional: true
-  checksum: 10c0/c07bc5339322325f82bd598c782412aa5c7adbf0d8f3d9ab530d1e6578901008def2185fb54e755e6a65592ad94389dc5f5dab5bac5fa4174934dcb67ad1dd2d
+  checksum: 10c0/4a8a3781b6c4851dc211df559ac2b82b62f6c1bcc0dcd14c86264891221c081436d03254cb257d0da696efbba9f426919c0e6a9e14398faac4a93db3c1c8d335
   languageName: node
   linkType: hard
 
-"mongoose@npm:^8.4.3":
-  version: 8.4.3
-  resolution: "mongoose@npm:8.4.3"
+"mongoose@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "mongoose@npm:8.5.0"
   dependencies:
     bson: "npm:^6.7.0"
     kareem: "npm:2.6.3"
-    mongodb: "npm:6.6.2"
+    mongodb: "npm:6.7.0"
     mpath: "npm:0.9.0"
     mquery: "npm:5.0.0"
     ms: "npm:2.1.3"
     sift: "npm:17.1.3"
-  checksum: 10c0/74f2710cfb6f9e5f068eb80beb111751b0bb60dbfd8737e60599196df14635469b3bdcafabf22fdd14e82c0d27a7753161c753367a4cf33f881d452cfd73bdd1
+  checksum: 10c0/6677eaec167d57b328098aac1e18c543a49c30077d3e078b42da3327697fe65b33bfd956ee4151c33d7a42ad4aa9547fbf4044defbecaff2e597a6450763c35e
   languageName: node
   linkType: hard
 
@@ -6133,13 +6133,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.4.5":
-  version: 5.4.5
-  resolution: "typescript@npm:5.4.5"
+"typescript@npm:^5.5.3":
+  version: 5.5.3
+  resolution: "typescript@npm:5.5.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/2954022ada340fd3d6a9e2b8e534f65d57c92d5f3989a263754a78aba549f7e6529acc1921913560a4b816c46dce7df4a4d29f9f11a3dc0d4213bb76d043251e
+  checksum: 10c0/f52c71ccbc7080b034b9d3b72051d563601a4815bf3e39ded188e6ce60813f75dbedf11ad15dd4d32a12996a9ed8c7155b46c93a9b9c9bad1049766fe614bbdd
   languageName: node
   linkType: hard
 
@@ -6153,13 +6153,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.4.5#optional!builtin<compat/typescript>":
-  version: 5.4.5
-  resolution: "typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"
+"typescript@patch:typescript@npm%3A^5.5.3#optional!builtin<compat/typescript>":
+  version: 5.5.3
+  resolution: "typescript@patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=5adc0c"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/db2ad2a16ca829f50427eeb1da155e7a45e598eec7b086d8b4e8ba44e5a235f758e606d681c66992230d3fc3b8995865e5fd0b22a2c95486d0b3200f83072ec9
+  checksum: 10c0/5a437c416251334deeaf29897157032311f3f126547cfdc4b133768b606cb0e62bcee733bb97cf74c42fe7268801aea1392d8e40988cdef112e9546eba4c03c5
   languageName: node
   linkType: hard
 
