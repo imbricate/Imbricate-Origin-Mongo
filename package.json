@@ -30,7 +30,7 @@
   "homepage": "https://imbricate.io",
   "dependencies": {
     "@sudoo/uuid": "^1.1.0",
-    "mongoose": "^8.6.2"
+    "mongoose": "^8.9.3"
   },
   "peerDependencies": {
     "@imbricate/core": "*"
