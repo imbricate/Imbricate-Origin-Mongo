@@ -41,7 +41,7 @@
     "@babel/preset-typescript": "^7.24.7",
     "@imbricate/core": "^1.31.0",
     "@imbricate/test-origin-jest": "^1.4.0",
-    "@sudoo/marked": "^3.21.4",
+    "@sudoo/marked": "^3.21.6",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.10.3",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
